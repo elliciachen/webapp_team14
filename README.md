@@ -1,12 +1,16 @@
 ## My Web Application (Title)
 
 * [General info](#general-info)
+* [Team #14 Members](#team-#14-members)
 * [Technologies](#technologies)
 * [Contents](#content)
 
 ## General Info
 This browser based web application to ...
 	
+## Team #14 Members
+Ellicia Chen - [elliciachen](https://github.com/elliciachen)
+
 ## Technologies
 Technologies used for this project:
 * HTML, CSS
