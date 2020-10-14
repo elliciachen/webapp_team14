@@ -2,7 +2,7 @@
 
 * [Fadi](#name)
 * [main.html](#file)
-* [Contents](#content)
+* [group14](#content)
 
 ## General Info
 This browser-based web application allows users to specify their preferred seating arrangements when making a restaurant reservation.
