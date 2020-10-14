@@ -10,6 +10,8 @@ This browser-based web application allows users to specify their preferred seati
 	
 ## Team #14 Members
 Ellicia Chen - [elliciachen](https://github.com/elliciachen)
+Fadi Basheer - [fadibasheer](https://github.com/fadibasheer)
+Maurice Tsai - [mauricetsai](https://github.com/mauricetsai)
 
 ## Technologies
 Technologies used for this project:
@@ -17,11 +19,6 @@ Technologies used for this project:
 * JavaScript
 * Bootstrap 
 * ...
-
-#Authors
-Ellicia Chen
-Fadi Basheer
-Maurice Tsai
 
 ## Content
 Content of the project folder:
