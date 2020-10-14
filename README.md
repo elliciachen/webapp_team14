@@ -14,7 +14,7 @@ Technologies used for this project:
 * Bootstrap 
 * ...
 
-#Authors
+## Authors
 Ellicia Chen
 Fadi Basheer
 Maurice Tsai
