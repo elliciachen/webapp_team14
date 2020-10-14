@@ -1,7 +1,7 @@
 ## My Web Application (Title)
 
-* [General info](#general-info)
-* [Technologies](#technologies)
+* [Fadi](#name)
+* [main.html](#file)
 * [Contents](#content)
 
 ## General Info
