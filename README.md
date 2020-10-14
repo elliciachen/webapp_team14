@@ -5,7 +5,7 @@
 * [Contents](#content)
 
 ## General Info
-This browser based web application to ...
+This browser-based web application allows users to specify their preferred seating arrangements when making a restaurant reservation.
 	
 ## Technologies
 Technologies used for this project:
@@ -13,7 +13,12 @@ Technologies used for this project:
 * JavaScript
 * Bootstrap 
 * ...
-	
+
+#Authors
+Ellicia Chen
+Fadi Basheer
+Maurice Tsai
+
 ## Content
 Content of the project folder:
 
