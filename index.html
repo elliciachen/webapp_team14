@@ -51,6 +51,7 @@
             </button>
           </div>
           <div class="modal-body">
+            <!-- Firebase login is here right now, can move elsewhere later. -->
             <h1>Welcome to My Awesome App</h1>
             <div id="firebaseui-auth-container"></div>
             <div id="loader">Loading...</div>
@@ -91,6 +92,7 @@
           <li class="nav-item">
             <a
               class="nav-link"
+              <!-- to access model component use the following two lines of code. -->
               data-toggle="modal"
               data-target="#loginModalCenter"
               >login/signup</a
@@ -136,22 +138,22 @@
     <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 
     <script src="/scripts/firebase-api-myTable.js"></script>
-    const db = firebase.firestore();
 
     <!--------------------------------------------------------------------->
     <!-- JS files: Your own JavaScript functions included here    -->
     <!--------------------------------------------------------------------->
     <script>
+      const db = firebase.firestore();
+
+
       // Initialize the FirebaseUI Widget using Firebase.
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
 
       var uiConfig = {
         callbacks: {
           signInSuccessWithAuthResult: function (authResult, redirectUrl) {
-            // User successfully signed in.
-            // Return type determines whether we continue the redirect automatically
-            // or whether we leave that to developer to handle.
-            return true;
+            var user = authResult.user;
+
           },
           uiShown: function () {
             // The widget is rendered.
