@@ -136,6 +136,7 @@
     <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 
     <script src="/scripts/firebase-api-myTable.js"></script>
+    const db = firebase.firestore();
 
     <!--------------------------------------------------------------------->
     <!-- JS files: Your own JavaScript functions included here    -->
@@ -159,7 +160,7 @@
           },
         },
         // Will use popup for IDP Providers sign-in flow instead of the default, redirect.
-        signInFlow: "popup",
+        signInFlow: "default",
         signInSuccessUrl: "<url-to-redirect-to-on-success>",
         signInOptions: [
           // Leave the lines as is for the providers you want to offer your users.
