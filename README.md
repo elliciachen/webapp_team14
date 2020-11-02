@@ -17,8 +17,7 @@ Maurice Tsai - [mauricetsai](https://github.com/mauricetsai)
 Technologies used for this project:
 * HTML, CSS
 * JavaScript
-* Bootstrap 
-* ...
+* Bootstrap
 
 ## Content
 Content of the project folder:
