@@ -90,9 +90,9 @@
             <a class="nav-link" href="profile.html">my profile</a>
           </li>
           <li class="nav-item">
+            <!-- to access model component use data-toggle and data-target. -->
             <a
-              class="nav-link"
-              <!-- to access model component use the following two lines of code. -->
+              class="nav-link"              
               data-toggle="modal"
               data-target="#loginModalCenter"
               >login/signup</a
@@ -143,8 +143,8 @@
     <!-- JS files: Your own JavaScript functions included here    -->
     <!--------------------------------------------------------------------->
     <script>
+      // Initilize Cloud Firestore.
       const db = firebase.firestore();
-
 
       // Initialize the FirebaseUI Widget using Firebase.
       var ui = new firebaseui.auth.AuthUI(firebase.auth());
@@ -153,7 +153,19 @@
         callbacks: {
           signInSuccessWithAuthResult: function (authResult, redirectUrl) {
             var user = authResult.user;
-
+            if (authResult.additionalUserInfo.isNewUser) {
+              db.collection("users").doc(user.uid).set({
+                name: user.displayName,
+                email: user.email
+              }).then(function() {
+                console.log("New user added to firestore");
+                //might have to change to another url (after successful login).
+                window.location.assign("index.html");
+              });
+            } else {
+              return true;
+            }
+            return false;
           },
           uiShown: function () {
             // The widget is rendered.
