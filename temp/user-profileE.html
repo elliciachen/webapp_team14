@@ -61,6 +61,11 @@
       <p class="email">email</p>
     </div>
 
+    <!-- error message if not logged in -->
+    <div class="auth-warning" style="display: none;">
+      <p class="warning-text">You are not logged in!</p>
+    </div>
+
     <!----------------------------------------------->
     <!-- JS: Boostrap, Firebase, API related    -->
     <!----------------------------------------------->
@@ -92,8 +97,17 @@
     <!-- JS files: Your own JavaScript functions included here    -->
     <!--------------------------------------------------------------------->
     <script>
-      document.getElementById("login").addEventListener("click", function(event) {
-        window.location.href = "http://127.0.0.1:5500/temp/loginE.html";
+      document.getElementById("logout").addEventListener("click", function(event) {
+        firebase.auth().signOut()
+          .then(() => {window.location.href = "http://127.0.0.1:5500/temp/indexE.html"});
+      });
+      firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+          //
+        } else {
+          document.querySelector(".auth-warning").style.display = "block";
+          window.location.href = "http://127.0.0.1:5500/temp/indexE.html";
+        }
       });
     </script>
   </body>
