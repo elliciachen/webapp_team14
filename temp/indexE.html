@@ -95,6 +95,19 @@
       document.getElementById("login").addEventListener("click", function(event) {
         window.location.href = "http://127.0.0.1:5500/temp/loginE.html";
       });
+
+      firebase.auth().onAuthStateChanged(function(user) {
+        if(user) {
+          document.querySelector("#account").style.display = "block";
+          document.querySelector("#login").style.display = "none";
+          document.querySelector("#logout").style.display = "block";
+          document.getElementById("logout").addEventListener("click", function(event) {
+          firebase.auth().signOut()
+          .then(() => {window.location.href = "http://127.0.0.1:5500/temp/indexE.html"});
+      });
+        } else {
+        }
+      });
     </script>
   </body>
 </html>
