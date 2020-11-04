@@ -42,10 +42,10 @@
       <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <a class="nav-link" id="account" href="#">my account</a>
+            <a class="nav-link" id="account" href="user-profileE.html">my account</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" id="login" href="#">login/signup</a>
+            <a class="nav-link" id="login" href="#" style="display: none;">login/signup</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" id="logout" href="#">logout</a>
@@ -106,7 +106,8 @@
         if(user) {
           //
         } else {
-          //window.location.href = "http://127.0.0.1:5500/temp/indexE.html";
+          document.querySelector(".auth-warning").style.display = "block";
+          window.location.href = "http://127.0.0.1:5500/temp/indexE.html";
         }
       });
     </script>
