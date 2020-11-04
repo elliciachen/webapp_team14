@@ -22,6 +22,11 @@
     />
 
     <!-- Optional styles and scripts of your own -->
+    <link
+    type="text/css"
+    rel="stylesheet"
+    href="styleE.css"
+  />
   </head>
 
   <body>
@@ -55,11 +60,81 @@
     </nav>
 
     <!-- test if user if logged out -->
-    <div class="profile-container">
+    <!-- <div class="profile-container">
       <img src="" alt="profile pic" class="profile-pic">
       <p class="name">name</p>
       <p class="email">email</p>
-    </div>
+    </div> -->
+
+    <!-- Switch to <p contenteditable="true"> ? -->
+    <section class="profile-container">
+      <h3>Account Settings</h3>
+      <div class="pic-container">
+        <img src="#" alt="" class="profile-pic">
+      </div>
+      <form id="profile-form">
+        <div>
+          <label for="name">Name:</label>
+          <input type="text" id="name" placeholder="Mary Sue">
+        </div>
+        <div>
+          <label for="email">Email:</label>
+          <input type="text" id="email" placeholder="mary.sue@gmail.com">
+        </div>
+        <div>
+          <label for="phone">Phone:</label>
+          <input type="tel" id="phone" pattern="[0-9]{3}-[0-9]{3}-[0-9]{3}" placeholder="6045550000">
+        </div>
+        <div>
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" placeholder="********">
+        </div>
+        <!-- Edit hides after click -->
+        <input class="btn" type="submit" value="Edit">
+        <!-- Save and Cancel show after clicking Edit -->
+        <input class="btn" type="submit" value="Save">
+        <input class="btn" type="submit" value="Cancel">
+      </form>
+    </section>
+
+    <!-- show reservations here -->
+    <section class="reservations-container">
+      <h3>Current Reservations</h3>
+      <!-- Current reservations -->
+      <ul id="reservations-current">
+        <li class="reservation-template">
+          <div class="table-img-container">
+            <img src="" alt="" class="table-img">
+          </div>
+          <div class="table-details">
+            <p class="store-name">Random</p>
+            <p class="table-id">table #5</p>
+            <p class="reserved-time">2020-11-25</p>
+            <p class="table-size">2 person</p>       
+          </div>
+          <div class="tag-container">
+            <span class="tag">Near washroom</span>
+          </div>
+          <div class="buttons-container">
+            <!-- change button availability in relationship to the current state -->
+            <input class="btn" type="submit" value="help">
+            <input class="btn" type="submit" value="edit">
+            <input class="btn" type="submit" value="save">
+            <input class="btn" type="submit" value="cancel">
+            <input class="btn" type="submit" value="delete">
+            <input class="btn" type="submit" value="undo">
+          </div>
+        </li>
+      </ul>
+      <!-- Completed reservations -->
+      <h3>Completed Reservations</h3>
+      <ul id="reservations-overdue">       
+      </ul>
+      <!-- Overdue reservations -->
+      <h3>Overdue Reservations</h3>
+      <ul id="reservations-overdue">
+      </ul>
+    </section>
 
     <!-- error message if not logged in -->
     <div class="auth-warning" style="display: none;">
