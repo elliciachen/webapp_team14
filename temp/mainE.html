@@ -99,7 +99,7 @@
     <script>
       document.getElementById("logout").addEventListener("click", function(event) {
         firebase.auth().signOut()
-          .then(() => {window.location.href = "http://127.0.0.1:5500/temp/indexE.html"});
+          .then(() => {window.location.href = "indexE.html"});
       });
 
       firebase.auth().onAuthStateChanged(function(user) {
@@ -107,7 +107,7 @@
           //
         } else {
           document.querySelector(".auth-warning").style.display = "block";
-          window.location.href = "http://127.0.0.1:5500/temp/indexE.html";
+          window.location.href = "indexE.html";
         }
       });
     </script>
