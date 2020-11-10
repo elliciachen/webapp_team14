@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
+    <style type="text/css">
+        html,
+        body {
+            padding: 0px;
+            margin: 0px;
+        }
+
+        p {
+            font-size: 3vw;
+            margin: auto;
+            text-align: center;
+        }
+
+        body {
+            font-family: 'Hind', sans-serif;
+            padding: 1%;
+        }
+
+        #picturePart>img {
+            width: 100%;
+            height: 45vh;
+        }
+
+        #picturePart>a {
+            position: absolute;
+            /* top: 4%;
+            left: 4rem;
+            margin-right: -50%; */
+            transform: translate(-110%, 280px);
+        }
+
+        #picturePart>a>button {
+            width: 15vw;
+            height: 8vh;
+        }
+
+        #resturantInfo {
+            height: 25vh;
+            border: 1px solid;
+        }
+
+        #covidInfo {
+            height: 10vh;
+            border: 1px solid;
+        }
+
+        /* @media screen and (max-width: 600px) {
+            #picturePart>img {
+                margin: 0 auto;
+                width: 100%;
+                height: 35vh;
+            }
+
+            #picturePart>a {
+                position: absolute;
+                top: 45%;
+                margin-left: -10%;
+                transform: translate(-50%, -50%);
+            }
+
+            #picturePart>a>button {
+                width: 6em;
+                height: 3em;
+            }
+
+            #resturantInfo {
+                height: 20vh;
+                padding: 10px;
+                border: 1px solid;
+            }
+
+            #covidInfo {
+                height: 20vh;
+                border: 1px solid;
+            }
+        } */
+    </style>
+</head>
+
+<body>
+        <!-- Header Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="">My Table</a>
+        </nav>
+
+        <header>
+            <p>Resturant Name</p>
+        </header>
+
+        <div id="picturePart"><img src="https://www.dummyimage.com/1600x800/052bff/fff&text=Restaurant-photo" alt="">
+            <a href="http://google.com">
+                <button>Reserve</button>
+            </a>
+        </div>
+        <div id="resturantInfo">
+            <p>This restaurant offer a chinese food</p>
+        </div>
+        <div id="covidInfo">
+            <p>Mask is required</p>
+        </div>
+</body>
+
+</html>
