@@ -32,11 +32,40 @@
   <!-- <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script> -->
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
-  <script src="firebase-api-tempE.js"></script>
+  <script src="temp/firebase-api-tempE.js"></script>
   <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
+  <script>
+    function generateJumbotron(reserID, dateText, timeText, restName, restAdd) {
+      let heading = $("<h1>").attr({
+        class: "display-4",
+        id: reserID
+      }).text(reserID);
+      let info1 = $("<p>").attr({
+        class: "lead"
+      }).text(dateText);
+      let info2 = $("<p>").attr({
+        class: "lead"
+      }).text(timeText);
+      let info3 = $("<p>").attr({
+        class: "lead"
+      }).text(restName);
+      let info4 = $("<p>").attr({
+        class: "lead"
+      }).text(restAdd);
+
+      let jumbo = $("<div>").attr({
+        class: "jumbotron jumbotron-fluid"
+      });
+      let div = $("<div>").attr({
+        class: "container"
+      })
+
+      return $("body").append(jumbo.append(div.append(heading, info1, info2, info3, info4)));
+    }
+  </script>
 </body>
 
 </html>
