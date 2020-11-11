@@ -42,7 +42,6 @@
     function generateJumbotron(contID, reserID, dateText, timeText, restName, restAdd) {
       let heading = $("<h1>").attr({
         class: "display-5",
-        id: reserID
       }).text(reserID);
       let info1 = $("<p>").attr({
         class: "lead"
@@ -62,7 +61,8 @@
         id: contID
       });
       let div = $("<div>").attr({
-        class: "container"
+        class: "container",
+        id: reserID
       })
       return $("#restaurant-history").append(jumbo.append(div.append(heading, info1, info2, info3, info4)));
     }
@@ -80,52 +80,45 @@
         newList.append(listItem.clone().text(item));
       }); 
 
-      return tagID.append(newList);
+      return tagID.after(newList);
     }
 
-    function generateHistoryTemp () {
-      firebase.auth().onAuthStateChanged(function(user) {
-        if (user) {
-          console.log("User exists");
-          //let reserveInfo;
-          //let userInfo;
-          let divCount = 0;
-          let reserCount = 0;
-          db.collection("users").doc(user.uid)
-            .get().then(function(snap) {
-              snap.collection("reservations")
-                .get()
-                .then(function(snap) {
-                  snap.forEach(function(doc) {
-                    let contID = `container{divCount}`;
-                    divCount++;
-                    let reserID = `reservation{reserCount}`;
-                    reserCount++;
-                    let dateText = "";
-                    let timeText = "";
-                    let restName = doc.data().rest_name;
-                    let restAdd = doc.date().rest_add;
-                    generateJumbotron(contID, reserID, dateText, timeText, restName, restAdd);
-                  })
-                })
-            })
-          //let reserveInfo = userInfo.collection("reservations");
-        } else {
-          console.log("No user");
-        }
-      })
+    function generateState(value) {
+      let text;
+      if (value < 0) {
+        text = "Overdue";
+      } else if (value === 0) {
+        text = "Completed";
+      } else {
+        text = "In Progress";
+      }
+      return $("<p>").attr({
+        class: "lead"
+      }).text(text);
     }
-    //generateHistory();
 
     function generateHistory() {
       firebase.auth().onAuthStateChanged(function(user) {
         if (user) {
           console.log("User exists");
+          let count = 0;
           db.collection("users").doc(user.uid).collection("reservations")
             .get()
             .then(function(snap) {
               snap.forEach(function (doc) {
                 console.log(doc.id, " -> ", doc.data());
+                let contID = `container${count}`;
+                let reserID = `reservation${count + 1}`;
+                count++;
+                let dateText = doc.data().app_date;
+                let timeText = doc.data().app_time;
+                let restName = doc.data().rest_name;
+                let restAdd = doc.data().rest_add;
+                let tableList = doc.data().tables;
+                let value = doc.data().state;
+                generateJumbotron(contID, reserID, dateText, timeText, restName, restAdd);
+                generateList($("#" + reserID), tableList);
+                $("#" + reserID).append(generateState(value));
               });
             });
         } else {
