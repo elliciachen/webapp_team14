@@ -12,6 +12,7 @@
 </head>
 
 <body>
+  <div class="container" id="restaurant-history"></div>
 
   <!----------------------------------------------->
   <!-- JS: Boostrap, Firebase, API related    -->
@@ -38,9 +39,9 @@
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
   <script>
-    function generateJumbotron(reserID, dateText, timeText, restName, restAdd) {
+    function generateJumbotron(contID, reserID, dateText, timeText, restName, restAdd) {
       let heading = $("<h1>").attr({
-        class: "display-4",
+        class: "display-5",
         id: reserID
       }).text(reserID);
       let info1 = $("<p>").attr({
@@ -57,14 +58,34 @@
       }).text(restAdd);
 
       let jumbo = $("<div>").attr({
-        class: "jumbotron jumbotron-fluid"
+        class: "jumbotron jumbotron-fluid",
+        id: contID
       });
       let div = $("<div>").attr({
         class: "container"
       })
-
-      return $("body").append(jumbo.append(div.append(heading, info1, info2, info3, info4)));
+      return $("#restaurant-history").append(jumbo.append(div.append(heading, info1, info2, info3, info4)));
     }
+
+    function generateList(tagID, tableList) {
+      let newList = $("<ul>").attr({
+        class: "list-group"
+      });
+
+      let listItem = $("<li>").attr({
+        class: "list-group-item"
+      });
+
+      tableList.forEach(function(item) {
+        newList.append(listItem.clone().text(item));
+      }); 
+
+      return tagID.append(newList);
+    }
+
+    // function generateReservationHistory() {
+    //   db.collection("users").doc(user.uid).
+    // }
   </script>
 </body>
 
