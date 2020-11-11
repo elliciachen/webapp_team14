@@ -83,8 +83,68 @@
       return tagID.append(newList);
     }
 
+    function generateHistoryTemp () {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log("User exists");
+          //let reserveInfo;
+          //let userInfo;
+          let divCount = 0;
+          let reserCount = 0;
+          db.collection("users").doc(user.uid)
+            .get().then(function(snap) {
+              snap.collection("reservations")
+                .get()
+                .then(function(snap) {
+                  snap.forEach(function(doc) {
+                    let contID = `container{divCount}`;
+                    divCount++;
+                    let reserID = `reservation{reserCount}`;
+                    reserCount++;
+                    let dateText = "";
+                    let timeText = "";
+                    let restName = doc.data().rest_name;
+                    let restAdd = doc.date().rest_add;
+                    generateJumbotron(contID, reserID, dateText, timeText, restName, restAdd);
+                  })
+                })
+            })
+          //let reserveInfo = userInfo.collection("reservations");
+        } else {
+          console.log("No user");
+        }
+      })
+    }
+    //generateHistory();
+
+    function generateHistory() {
+      firebase.auth().onAuthStateChanged(function(user) {
+        if (user) {
+          console.log("User exists");
+          db.collection("users").doc(user.uid).collection("reservations")
+            .get()
+            .then(function(snap) {
+              snap.forEach(function (doc) {
+                console.log(doc.id, " -> ", doc.data());
+              });
+            });
+        } else {
+          console.log("No user");
+        }
+      });
+    }
+    generateHistory();
+
     // function generateReservationHistory() {
-    //   db.collection("users").doc(user.uid).
+    //   let userInfo = db.collection("users").doc(user.uid).get();
+    //   let reserveInfo = userInfo.collection("reservations").get();
+    //   db.collection("users").doc(user.uid)
+    //     .get()
+    //     .then(function (snap) {
+    //       snap.forEach(function(doc) {
+
+    //       })
+    //     })
     // }
   </script>
 </body>
