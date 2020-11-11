@@ -15,23 +15,74 @@
       href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css"
     />
     <!-- <link rel="stylesheet" href="profile.css" /> -->
+    <style>
+      #edit-profile {
+        display: none;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
       <h1>My Profile</h1>
-      <img src="https://dummyimage.com/128x128/000/fff.jpg" alt="profile" class="profile-page">
-      <input type="button" value="Log Out" class="btn btn-primary">
-      <input type="button" value="Edit Profile" class="btn btn-primary">
-      <p class="card-text" id="user-email">...</p>
+      <img
+        src="https://dummyimage.com/128x128/000/fff.jpg"
+        alt="profile"
+        class="profile-page"
+      />
+      <input
+        type="button"
+        value="Log Out"
+        class="btn btn-primary"
+        id="logout-button"
+      />
+      <input
+        type="button"
+        value="Edit Profile"
+        class="btn btn-primary"
+        id="edit-profile-button"
+      />
+      <!-- <p class="jumbotron" id="user-email">...</p>
       <p class="card-text" id="user-name">...</p>
-      <p class="card-text" id="user-phone">...</p>
+      <p class="card-text" id="user-phone">...</p> -->
+      <ul class="list-group">
+        <li class="list-group-item" id="user-email">...</li>
+        <li class="list-group-item" id="user-name">...</li>
+        <li class="list-group-item" id="user-phone">...</li>
+      </ul>
     </div>
 
-
-
-
-
-
+    <div class="container">
+      <form class="edit-profile">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            placeholder="..."
+            disabled
+          />
+        </div>
+        <div class="form-group">
+          <label for="name">Name:</label>
+          <input type="text" class="form-control" id="name" placeholder="..." />
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone Number:</label>
+          <input type="text" class="form-control" id="phone" placeholder="..." />
+        </div>
+        <div class="form-group">
+          <label for="new-pass">Password:</label>
+          <input type="password" class="form-control" id="new-pass" />
+        </div>
+        <div class="form-group">
+          <label for="old-pass">Enter original password to make changes:</label>
+          <input type="password" class="form-control" id="old-pass" />
+        </div>
+        <input type="button" value="Cancel" class="btn btn-primary" />
+        <input type="button" value="Update" class="btn btn-primary" />
+      </form>
+    </div>
 
     <!-- <h1>Hello, user who is scared of contacting other people at restaurants!</h1>
         <header>
@@ -64,32 +115,47 @@
     <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 
     <script>
+      $(".edit-profile").hide();
+
+
       function getUserValue() {
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             console.log("user logged in");
             db.collection("users")
-            .doc(user.uid)
-            .get()
-            .then(function (doc) {
-              var email = doc.data().email;
-              var name = doc.data().name;
-              var phone = doc.data().phone;
+              .doc(user.uid)
+              .get()
+              .then(function (doc) {
+                var email = doc.data().email;
+                var name = doc.data().name;
+                var phone = doc.data().phone;
 
-              $("#user-email").text(email);
-              $("#user-name").text(name);
-              $("#user-phone").text(phone);
-            })
+                $("#user-email").text(email);
+                $("#user-name").text(name);
+                $("#user-phone").text(phone);
+
+                $("#edit-profile-button").on("click", function (event) {
+                  console.log(event.target);
+                  $(".edit-profile").show();
+                  $("#email").attr({
+                    "placeholder": email,
+                  });
+                  $("#name").attr({
+                    "placeholder": name,
+                  });
+                  $("#phone").attr({
+                    "placeholder": phone,
+                  });
+                });
+              });
           } else {
             console.log("no user is signed in");
           }
-        })
+        });
       }
       getUserValue();
 
-      function setUserValue() {
-
-      }
+      function setUserValue() {}
     </script>
   </body>
 </html>
