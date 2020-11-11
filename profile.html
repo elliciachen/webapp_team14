@@ -69,7 +69,12 @@
         </div>
         <div class="form-group">
           <label for="phone">Phone Number:</label>
-          <input type="text" class="form-control" id="phone" placeholder="..." />
+          <input
+            type="text"
+            class="form-control"
+            id="phone"
+            placeholder="..."
+          />
         </div>
         <div class="form-group">
           <label for="new-pass">Password:</label>
@@ -79,8 +84,18 @@
           <label for="old-pass">Enter original password to make changes:</label>
           <input type="password" class="form-control" id="old-pass" />
         </div>
-        <input type="button" value="Cancel" class="btn btn-primary" />
-        <input type="button" value="Update" class="btn btn-primary" />
+        <input
+          type="button"
+          value="Cancel"
+          class="btn btn-primary"
+          id="cancel-button"
+        />
+        <input
+          type="button"
+          value="Update"
+          class="btn btn-primary"
+          id="update-button"
+        />
       </form>
     </div>
 
@@ -117,7 +132,6 @@
     <script>
       $(".edit-profile").hide();
 
-
       function getUserValue() {
         firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
@@ -138,13 +152,13 @@
                   console.log(event.target);
                   $(".edit-profile").show();
                   $("#email").attr({
-                    "placeholder": email,
+                    placeholder: email,
                   });
                   $("#name").attr({
-                    "placeholder": name,
+                    placeholder: name,
                   });
                   $("#phone").attr({
-                    "placeholder": phone,
+                    placeholder: phone,
                   });
                 });
               });
@@ -155,7 +169,66 @@
       }
       getUserValue();
 
-      function setUserValue() {}
+      function isEmptyString(id) {
+        return (id.val().length != 0);
+      }
+
+      function getString(id) {
+        return id.val();
+      }
+
+      function updatePassword() {
+        var newPassword = $("#new-pass").val();
+        user.updatePassword(newPassword).then(function() {
+          firebase.auth().signOut.then(function() {
+            window.location.href = "indexE.html";
+          }).catch(function() {
+            console.log("Something went wrong!");
+          });
+        }).catch(function() {
+          console.log("Something went wrong!");
+        });
+      }
+
+      function setUserValue() {
+        firebase.auth().onAuthStateChanged(function (user) {
+          if (user) {
+            console.log("user logged in!");
+            $("#update-button").on("click", function () {
+              var userProvidedPassword = $("#old-pass").val();
+              var credential = firebase.auth.EmailAuthProvider.credential(
+                user.email,
+                userProvidedPassword
+              );
+              user
+                .reauthenticateWithCredential(credential)
+                .then(function () {
+                  console.log("Success!");
+                  if (isEmptyString($("#name"))) {
+                    user.updateProfile({displayName: getString($("#name"))});
+                    db.collection("users").doc(user.uid).update({
+                      "name": getString($("#name"))
+                    });
+                  }
+
+
+                  if (isEmptyString($("#new-pass"))) {
+                    console.log("Hello!");
+                  }
+                  getUserValue();
+                })
+                .catch(function (error) {
+                  console.log("Something went wrong");
+                });
+            });
+          } else {
+            console.log("Something went wrong.");
+          }
+        });
+      }
+      
+
+      setUserValue();
     </script>
   </body>
 </html>
