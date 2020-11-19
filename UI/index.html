@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,11 +15,12 @@
 
   <!-- Optional styles and scripts of your own -->
 </head>
+
 <body>
   <!-------------------------------------->
   <!-- The following is HTML for layout -->
   <!-------------------------------------->
-  
+
   <div class="index-container">
     <div class="index-header">
       <h1 class="website-title">myTable</h1>
@@ -39,7 +41,7 @@
       <a href="#">Twitter</a>
       <a href="#">team14@gmail.com</a>
       <p>Copyright &#169; Team 14. All Rights Reserved</p>
-    </div>  
+    </div>
   </div>
 
 
@@ -69,5 +71,22 @@
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
   <!-- <script src="loginE.js"></script> -->
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        console.log(`Info: ${user.displayName}`);
+        firebase.auth().signOut().then(function () {
+          console.log("Success: log out");
+        }).catch(function (error) {
+          console.warn("Error: log out failed");
+        })
+      } else {
+        console.log("Log: no user available.")
+      }
+    });
+  </script>
+
+
 </body>
+
 </html>
