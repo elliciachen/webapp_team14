@@ -9,8 +9,8 @@ body {
 }
 
 .reservation-history-container {
-  display: block;
-  overflow: auto;
+  /* display: block;
+  overflow: auto; */
   width: 96%; height: 100vh;
   margin: 0 auto;  
 }
