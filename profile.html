@@ -1,17 +1,211 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>profile</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="profile.css">
-    </head>
-    <body>
-        <h1>Hello, user who is scared of contacting other people at restaurants!</h1>
+
+<head>
+  <meta charset="utf-8" />
+  <title>profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+  <!-- <link rel="stylesheet" href="profile.css" /> -->
+  <style>
+    #edit-profile {
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>My Profile</h1>
+    <img src="https://dummyimage.com/128x128/000/fff.jpg" alt="profile" class="profile-page" />
+    <input type="button" value="Log Out" class="btn btn-primary" id="logout-button" />
+    <input type="button" value="Edit Profile" class="btn btn-primary" id="edit-profile-button" />
+    <!-- <p class="jumbotron" id="user-email">...</p>
+      <p class="card-text" id="user-name">...</p>
+      <p class="card-text" id="user-phone">...</p> -->
+    <ul class="list-group">
+      <li class="list-group-item" id="user-email">...</li>
+      <li class="list-group-item" id="user-name">...</li>
+      <li class="list-group-item" id="user-phone">...</li>
+    </ul>
+  </div>
+
+  <div class="container">
+    <form class="edit-profile">
+      <div class="form-group">
+        <label for="email">Email:</label>
+        <input type="email" class="form-control" id="email" placeholder="..." disabled />
+      </div>
+      <div class="form-group">
+        <label for="name">Name:</label>
+        <input type="text" class="form-control" id="name" placeholder="..." />
+      </div>
+      <div class="form-group">
+        <label for="phone">Phone Number:</label>
+        <input type="text" class="form-control" id="phone" placeholder="..." />
+      </div>
+      <div class="form-group">
+        <label for="new-pass">Password:</label>
+        <input type="password" class="form-control" id="new-pass" />
+      </div>
+      <div class="form-group">
+        <label for="old-pass">Enter original password to make changes:</label>
+        <input type="password" class="form-control" id="old-pass" />
+      </div>
+      <input type="button" value="Cancel" class="btn btn-primary" id="cancel-button" />
+      <input type="button" value="Update" class="btn btn-primary" id="update-button" />
+    </form>
+  </div>
+
+  <!-- <h1>Hello, user who is scared of contacting other people at restaurants!</h1>
         <header>
             <h2>This is your profile page.</h2>
         </header>
+<<<<<<< HEAD
         <script src="" async defer></script>
         
     </body>
+||||||| 4c9383b
+        <script src="" async defer></script>
+    </body>
+=======
+        <script src="" async defer></script> -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+  <!-- Firebase libraries from CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <!-- <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+  <script src="temp/firebase-api-tempE.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+
+  <script>
+    $(".edit-profile").hide();
+
+    function getUserValue() {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          db.collection("users")
+            .doc(user.uid)
+            .get()
+            .then(function (doc) {
+              var email = doc.data().email;
+              var name = doc.data().name;
+              var phone = doc.data().phone;
+
+              $("#user-email").text(email);
+              $("#user-name").text(name);
+              $("#user-phone").text(phone);
+
+              $("#edit-profile-button").on("click", function (event) {
+                $(".edit-profile").show();
+                $("#email").attr({
+                  placeholder: email,
+                });
+                $("#name").attr({
+                  placeholder: name,
+                });
+                $("#phone").attr({
+                  placeholder: phone,
+                });
+              });
+            });
+        } else {
+          console.log("no user is signed in");
+        }
+      });
+    }
+    getUserValue();
+
+    function isEmptyString(id) {
+      return (id.val().length != 0);
+    }
+
+    function getString(id) {
+      return id.val();
+    }
+
+    function updatePassword(user) {
+      var newPassword = $("#new-pass").val();
+      user.updatePassword(newPassword).then(function () {
+        firebase.auth().signOut.then(function () {
+          window.location.href = "index.html";
+        }).catch(function (error) {
+          console.log("Sign out failed. ", error);
+        });
+      }).catch(function (error) {
+        console.log("Cannot update password! ", error);
+      });
+    }
+
+    function setUserValue() {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          $("#update-button").on("click", function () {
+            var userProvidedPassword = $("#old-pass").val();
+            var credential = firebase.auth.EmailAuthProvider.credential(
+              user.email,
+              userProvidedPassword
+            );
+            user
+              .reauthenticateWithCredential(credential)
+              .then(function () {
+                console.log("Success!");
+                if (isEmptyString($("#name"))) {
+                  user.updateProfile({
+                    displayName: getString($("#name"))
+                  });
+                  db.collection("users").doc(user.uid).update({
+                    "name": getString($("#name"))
+                  });
+                }
+                if (isEmptyString($("#phone"))) {
+                  db.collection("users").doc(user.uid).update({
+                    "phone": getString($("#phone"))
+                  });
+                }
+                getUserValue(user);
+
+                if (isEmptyString($("#new-pass"))) {
+                  var newPassword = $("#new-pass").val();
+                  user.updatePassword(newPassword).then(function () {
+                    firebase.auth().signOut().then(function () {
+                      window.setTimeout(window.location.href = "index.html", 5000);
+                    }).catch(function (error) {
+                      console.log("Sign out failed. ", error);
+                    });
+                  }).catch(function (error) {
+                    console.log("Cannot update password! ", error);
+                  });
+                }
+              })
+              .catch(function (error) {
+                console.log("Wrong password. ", error);
+                $("#old-pass").addClass("is-invalid");
+              });
+          });
+        } else {
+          console.log("No user.");
+        }
+      });
+    }
+
+
+    setUserValue();
+  </script>
+</body>
+
+>>>>>>> 61857ce72a2bad1d1309896a8cf88ea660ba61fd
 </html>
