@@ -1,0 +1,27 @@
+nav {
+  background-color: rgb(208, 213, 218);
+}
+
+.profile-container {
+  background-color: #f8f8f8;
+}
+
+/*  */
+
+* {
+  margin: 0;
+  border: 0;
+  padding: 0;
+}
+
+.profile-container {
+  width: 96%;
+  margin: 0 auto;
+}
+
+.custom-btn {
+  max-width: 100%;
+  padding-left:10%;
+  padding-right:10%;
+  margin: 0 10%;
+}
