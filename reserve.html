@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <title>Document</title>
+
+    <style>
+        body {
+            background-color: #B37412;
+        }
+
+        .con {
+            width: 99%;
+            height: 100vh;
+            background-color: white;
+            margin: auto;
+        }
+
+        .plus {
+            color: green;
+            font-size: 25px;
+            text-align: center;
+            border: 3px solid green;
+            border-radius: 50%;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            height: 50px;
+            width: 50px;
+            vertical-align: middle;
+            display: table-cell
+        }
+    </style>
+</head>
+
+
+
+<body>
+    <div class="con">
+        <br><br><br><br><br>
+        <div class="card border-secondary mb-3" style="width: 85%; text-align: center; margin: auto;">
+            <div class="card-header">Reserve Tables</div>
+            <div class="card-body text-secondary">
+
+                <div id="tablesAdded" style="height:300px; border: thistle 2px solid; position: relative;">
+                    <a href="floor-plan.html">
+                        <p class=plus>+</p>
+                    </a>
+                </div>
+                <p>Customer Name</p>
+                <p>Custumer Email</p>
+                <p>Customer Phone number</p>
+
+                <a href="#" class="btn btn-primary">Confirm</a>
+                <br>
+                <br>
+                <a href="#" class="btn btn-primary">Cancel</a>
+            </div>
+        </div>
+
+    </div>
+
+
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+    <script src="scripts/reserve.js"> </script>
+</body>
+
+</html>

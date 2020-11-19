@@ -1,22 +1,120 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
-    <title>Text Wrapping</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <title>Hello, world!</title>
+
+
+
     <style>
-        @import url(https://fonts.googleapis.com/css?family=Hind);
+        #bar {
+            width: 100%;
+            display: flex;
+            background-color: rgb(245, 239, 239);
+            justify-content: space-around;
+            border-top: 2px solid gray;
+            border-bottom: 2px solid gray;
+            text-align: center;
+        }
 
-        
+        .nav-item>img {
+            padding-top: 5px;
+        }
 
+        .nav-item>p {
+            margin: 0%;
+            color: black;
+        }
     </style>
 </head>
 
 <body>
-    <div id="div1">
-        <p>Hello to our app</p>
+    <!-------------------------------------->
+    <!-- The following is HTML for layout -->
+    <!-------------------------------------->
+    <!-- Header Navigation Bar -->
+    <!-- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="">myApp</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+            <ul class="navbar-nav ml-auto">
+
+                <a class="nav-item"><img src="images/images.jpg" width="40" height="40" alt="">
+                    <br>
+                    <li >
+                        <a class="nav-link" id="account" href="user-profileE.html">my account</a>
+                    </li>
+                </a>
+
+                <li class="nav-item">
+                    <a class="nav-link" id="login" href="#" style="display: none;">login/signup</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" id="logout" href="#">logout</a>
+                </li>
+            </ul>
+        </div>
+    </nav> -->
+
+
+    <nav id="bar">
+        <a class="nav-item"><img src="images/home-icon.png" width="40" height="40" alt=""><br>
+            <p>Home</p>
+        </a>
+        <a class="nav-item"><img src="images/search-icon.png" width="40" height="40" alt=""><br>
+            <p>Resturant</p>
+        </a>
+        <a class="nav-item"><img src="images/notification.png" width="40" height="40" alt=""><br>
+            <p>Reservation</p>
+        </a>
+        <a class="nav-item"><img src="images/account.png" width="40" height="40" alt=""><br>
+            <p>Account</p>
+        </a>
+    </nav>
+
+
+    <div class="card" style="width:100%;text-align: center; margin: auto; background-color:#91CDF2;">
+        <img src="images/resturant.jpg" class="card-img-top" alt="..." style="height:50vh;">
+        <div class="card-body">
+            <h5 class="card-title">Cibo Trattoria</h5>
+            <a href="floor-plan.html" class="btn" style="width:20%; background-color:#0095f1; color: white;">Reserve</a>
+        </div>
+
+        <div style="height:15vh;">
+            <p class="text">Cibo Trattoria cooks authentic Italian cuisine with ethically sourced, seasonal local
+                ingredients prepared in a traditional manner. Our 'from scratch kitchen' works with Mother Nature and
+                embraces the Slow Food philosophy to showcase rustic elegance in our cuisine.
+                <br>
+                Proud to be the pioneer member of Slow Foods Vancouver, Cibo is located off the Moda Hotel lobby and
+                just steps away from the Orpheum Theatre.
+                <br>
+                Join us for Breakfast, Lunch or Dinner</p>
+        </div>
+        <div style="height:15vh;">
+            <p class="text">Some quick example text to build on the card title and make up the bulk of the
+                card's content.</p>
+        </div>
     </div>
+    <!-- Optional JavaScript; choose one of the two! -->
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    </script>
 
 </body>
 
