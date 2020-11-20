@@ -29,19 +29,19 @@
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" id="account" href="index.html">HOME</a>
+          <a class="nav-link" id="home" href="index.html">HOME</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="account" href="main.html">RESTAURANT</a>
+          <a class="nav-link" id="restaurant" href="main.html">RESTAURANT</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" id="account">RESERVATION</a>
+          <a class="nav-link active" id="reservation">RESERVATION</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" id="account" href="profile.html">ACCOUNT</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" id="logout" href="">LOG OUT</a>
+          <a class="nav-link" id="logout" href="index.html">LOG OUT</a>
         </li>
       </ul>
     </div>
@@ -50,68 +50,50 @@
   <div class="reservation-history-container pt-5">
     <div class="container border py-3" id="reservation-custom-color">
       <h1 class="text-center pb-3">Reservation History</h1>
-      <button class="accordion reservationID border">
-        <h5 class="reservation-heading">Reservation #1</h5>
-        <h5 class="reservation-state float-right">In Progress</h5>
-      </button>
-      <div class="panel pt-2 reservationID">
-        <form>
-          <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="restaurant">Restaurant</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control-plaintext" id="restaurant-name" placeholder="Mango's Tea House" disabled>
-            </div>
+      <div class="reservationID">
+        <button class="accordion reservationID border">
+          <h5 class="reservation-heading">Reservation #1</h5>
+          <h5 class="reservation-state float-right">In Progress</h5>
+        </button>
+        <div class="panel pt-2 reservationID">
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Restaurant</p>
+            <p class="col-sm-9 rest-name">Mango's Tea House</p>
           </div>
-          <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="location">Location</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control-plaintext" id="restaurant-location" placeholder="#105-6888 Royal Oak Avenue, Burnaby, V5J 4J2" disabled>
-            </div>
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Location</p>
+            <p class="col-sm-9 rest-location">#105-6888 Royal Oak Avenue, Burnaby, V5J 4J2</p>
           </div>
-          <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="date">Date</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control-plaintext" id="date" placeholder="November 18" disabled>
-            </div>
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Date</p>
+            <p class="col-sm-9 app-date">November 18</p>
           </div>
-          <div class="form-group row">
-            <label class="col-sm-2 col-form-label" for="time">Time</label>
-            <div class="col-sm-10">
-              <input type="text" class="form-control-plaintext" id="time" placeholder="13:00" disabled>
-            </div>
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Time</p>
+            <p class="col-sm-9 app-time">13:00</p>
           </div>
-        </form>
-        <table class="table text-center">
-          <thead>
-            <tr>
-              <th>Table</th>
-              <th>Seats</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>Table 1</td>
-              <td>3</td>
-            </tr>
-            <tr>
-              <td>Table 2</td>
-              <td>4</td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="text-center">
-          <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-reservation">Cancel</button>
+          <table class="table text-center reservation-table-list reservationID">
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Seats</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Table 1</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Table 2</td>
+                <td>4</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-center">
+            <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-reservation">Cancel</button>
+          </div>
         </div>
-      </div>
-  
-      <button class="accordion">Section 2</button>
-      <div class="panel">
-        <p>Lorem ipsum...</p>
-      </div>
-  
-      <button class="accordion">Section 3</button>
-      <div class="panel">
-        <p>Lorem ipsum...</p>
       </div>
     </div>
   </div>
@@ -141,30 +123,132 @@
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
-  <script>
-    var acc = document.getElementsByClassName("accordion");
-    var i;
+  <script async=false>
+    $(".reservation-history-container").on("click", "#cancel-reservation", function(event) {      
+      $(event.target).parent().parent().parent().remove();
+    });
 
-    for (i = 0; i < acc.length; i++) {
-      acc[i].addEventListener("click", function () {
-        /* Toggle between adding and removing the "active" class,
-        to highlight the button that controls the panel */
-        this.classList.toggle("active-accordion");
-
-        /* Toggle between hiding and showing the active panel */
-        var panel = this.nextElementSibling;
-        if (panel.style.display === "block") {
-          panel.style.display = "none";
-        } else {
-          panel.style.display = "block";
-        }
+    // Actual stuff here
+    function grabReservationInfo() {
+      let reserveCount = 1;
+      firebase.auth().onAuthStateChanged(function (user) {
+        db.collection("users")
+        .doc(user.uid)
+        .collection("reservations")
+        .orderBy("appointment") //"desc"
+        .get()
+        .then(function (snap) {
+          snap.forEach(function (doc) {            
+            let reserveInfo = {
+              "id": doc.id,
+              "count": reserveCount,
+              "state": doc.data().state,
+              "confirmNum": doc.data().confirmNum,
+              "restName": doc.data().restName,
+              "restLocation": doc.data().restLocation,
+              "time": doc.data().appointment
+            };
+            reserveCount++;
+            generateReservation(reserveInfo);
+          });
+        });
       });
     }
 
-    // Actual stuff here
-    $(".reservation-history-container").on("click", "#cancel-reservation", function() {
-      $(".reservationID").remove();
-    });
+    grabReservationInfo();
+
+    const Reservation = ({id, count, state, confirmNum, restName, restLocation, time}) => `
+    <div class="${id}">
+        <button class="accordion border">
+          <h5 class="reservation-heading">Reservation #${count}</h5>
+          <h5 class="reservation-state float-right">${state}</h5>
+        </button>
+        <div class="panel pt-2">
+          <div class="row align-items-center">
+            <p class="col-sm-3 font-weight-bold">Confirmation Number</p>
+            <p class="col-sm-9 confirm-num">${confirmNum}</p>
+          </div>
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Restaurant</p>
+            <p class="col-sm-9 rest-name">${restName}</p>
+          </div>
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Location</p>
+            <p class="col-sm-9 rest-location">${restLocation}</p>
+          </div>
+          <div class="row">
+            <p class="col-sm-3 font-weight-bold">Time</p>
+            <p class="col-sm-9 app-time">${time}</p>
+          </div>
+          <table class="table text-center reservation-table-list">
+            <thead>
+              <tr>
+                <th>Table</th>
+                <th>Seats</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Table 1</td>
+                <td>3</td>
+              </tr>
+              <tr>
+                <td>Table 2</td>
+                <td>4</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-center">
+            <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-reservation">Cancel</button>
+          </div>
+        </div>
+      </div>
+
+    `;
+
+    function generateReservation(data) {
+      let {id, count, state, confirmNum, restName, restLocation, time} = data;
+      console.log(time.toDate());
+      time = time.toDate();
+      console.log(id);
+      console.log(data.id);
+      $(".container").append([
+        {id, count, state, confirmNum, restName, restLocation, time}
+      ].map(Reservation).join(""));
+    }
+    
+
+    // $(".container").append([
+    //   {id: "...", count: "...", state: "...", confirmNum: "...", restName: "...", restLocation: "...", time: "..."}
+    // ].map(Reservation).join(""));
+
+    const Table = ({tableID,tableSeats}) => `
+          <tr>
+            <td>${tableID}</td>
+            <td>${tableSeats}</td>
+          </tr>
+    `;
+
+    function addTable(tableList) {
+      tableList.forEach(function (item) {
+        // $(`${id} tbody`).append([
+        //   {tableID: "...", tableSeats: "..."}
+        // ].map(Table).join(""));
+      })
+    }
+  </script>
+  <script>
+    $(".container").on("click", ".accordion", function (event) {
+      console.log(event.target);
+      $(this).toggleClass("active-accordion");
+      let panel = $(this).next();
+      if ($(panel).css("display") === "block") {
+        $(panel).css("display", "none");
+      } else {
+        $(panel).css("display", "block");
+      }
+    })
+
   </script>
 </body>
 
