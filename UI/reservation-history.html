@@ -123,8 +123,23 @@
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
-  <script async=false>
-    $(".reservation-history-container").on("click", "#cancel-reservation", function(event) {      
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        grabReservationInfo();
+      } else {
+        console.warn("Error: no user available.");
+        $("body").children().remove();
+        $("body").append(
+          '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
+        );
+        window.setTimeout(function () {
+          window.location.href = "index.html";
+        }, 2000);
+
+      }
+    });
+    $(".reservation-history-container").on("click", "#cancel-reservation", function (event) {
       $(event.target).parent().parent().parent().remove();
     });
 
@@ -133,19 +148,33 @@
       let reserveCount = 1;
       firebase.auth().onAuthStateChanged(function (user) {
         db.collection("users")
-        .doc(user.uid)
-        .collection("reservations")
-        .orderBy("appointment", "desc") //"desc"
-        .get()
-        .then(function (snap) {
-          snap.forEach(function (doc) {
-            let appTime = doc.data().appointment.toDate().getTime();
-            let currentTime = new Date().getTime();
-            if (appTime < currentTime) {
-              doc.ref.update({
-                "state": -1
-              })
-              .then(function () {
+          .doc(user.uid)
+          .collection("reservations")
+          .orderBy("appointment", "desc") //"desc"
+          .get()
+          .then(function (snap) {
+            snap.forEach(function (doc) {
+              let appTime = doc.data().appointment.toDate().getTime();
+              let currentTime = new Date().getTime();
+              if (appTime < currentTime) {
+                doc.ref.update({
+                    "state": -1
+                  })
+                  .then(function () {
+                    let reserveInfo = {
+                      "id": doc.id,
+                      "count": reserveCount,
+                      "state": doc.data().state,
+                      "confirmNum": doc.data().confirmNum,
+                      "restName": doc.data().restName,
+                      "restLocation": doc.data().restLocation,
+                      "time": doc.data().appointment,
+                      "tables": doc.data().tables
+                    };
+                    reserveCount++;
+                    generateReservation(reserveInfo);
+                  });
+              } else {
                 let reserveInfo = {
                   "id": doc.id,
                   "count": reserveCount,
@@ -156,32 +185,28 @@
                   "time": doc.data().appointment,
                   "tables": doc.data().tables
                 };
+                console.log(typeof (doc.data().tables));
                 reserveCount++;
                 generateReservation(reserveInfo);
-              });
-            } else {
-              let reserveInfo = {
-                  "id": doc.id,
-                  "count": reserveCount,
-                  "state": doc.data().state,
-                  "confirmNum": doc.data().confirmNum,
-                  "restName": doc.data().restName,
-                  "restLocation": doc.data().restLocation,
-                  "time": doc.data().appointment,
-                  "tables": doc.data().tables
-              };
-              console.log(typeof(doc.data().tables));
-              reserveCount++;
-              generateReservation(reserveInfo);
-            }
+              }
+            });
           });
-        });
       });
     }
 
-    grabReservationInfo();
+    
 
-    const Reservation = ({id, count, state, confirmNum, restName, restLocation, day, date, hour}) => `
+    const Reservation = ({
+      id,
+      count,
+      state,
+      confirmNum,
+      restName,
+      restLocation,
+      day,
+      date,
+      hour
+    }) => `
     <div class="${id}">
         <button class="accordion border">
           <h5 class="reservation-heading">Reservation #${count}</h5>
@@ -222,7 +247,10 @@
 
     `;
 
-    const Table = ({table, seats}) => `
+    const Table = ({
+      table,
+      seats
+    }) => `
           <tr>
             <td>${table}</td>
             <td>${seats}</td>
@@ -230,30 +258,48 @@
     `;
 
     function generateReservation(data) {
-      let {id, count, state, confirmNum, restName, restLocation, time} = data;
+      let {
+        id,
+        count,
+        state,
+        confirmNum,
+        restName,
+        restLocation,
+        time
+      } = data;
       state = setState(state);
       time = time.toDate();
       let day = ['Sunday',
-               'Monday',
-               'Tuesday',
-               'Wednesday',
-               'Thursday',
-               'Friday',
-               'Saturday'][time.getDay()];
+        'Monday',
+        'Tuesday',
+        'Wednesday',
+        'Thursday',
+        'Friday',
+        'Saturday'
+      ][time.getDay()];
       let date = time.toLocaleDateString();
       let hour = time.toLocaleTimeString();
-      $(".container").append([
-        {id, count, state, confirmNum, restName, restLocation, day, date, hour}
-      ].map(Reservation).join(""));
+      $(".container").append([{
+        id,
+        count,
+        state,
+        confirmNum,
+        restName,
+        restLocation,
+        day,
+        date,
+        hour
+      }].map(Reservation).join(""));
 
       let tables = data.tables;
       for (const [table, seats] of Object.entries(tables)) {
-        $(`table.${id} > tbody`).append([
-          {table,seats}
-        ].map(Table).join(''));
+        $(`table.${id} > tbody`).append([{
+          table,
+          seats
+        }].map(Table).join(''));
       }
     }
-    
+
 
     function setState(stateNum) {
       return stateNum === -1 ? "Outdated" : stateNum === 0 ? "Complete" : "In Progress";
@@ -279,7 +325,6 @@
         $(panel).css("display", "block");
       }
     })
-
   </script>
 </body>
 
