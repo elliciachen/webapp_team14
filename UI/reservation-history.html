@@ -135,21 +135,42 @@
         db.collection("users")
         .doc(user.uid)
         .collection("reservations")
-        .orderBy("appointment") //"desc"
+        .orderBy("appointment", "desc") //"desc"
         .get()
         .then(function (snap) {
-          snap.forEach(function (doc) {            
-            let reserveInfo = {
-              "id": doc.id,
-              "count": reserveCount,
-              "state": doc.data().state,
-              "confirmNum": doc.data().confirmNum,
-              "restName": doc.data().restName,
-              "restLocation": doc.data().restLocation,
-              "time": doc.data().appointment
-            };
-            reserveCount++;
-            generateReservation(reserveInfo);
+          snap.forEach(function (doc) {
+            let appTime = doc.data().appointment.toDate().getTime();
+            let currentTime = new Date().getTime();
+            if (appTime < currentTime) {
+              doc.ref.update({
+                "state": -1
+              })
+              .then(function () {
+                let reserveInfo = {
+                  "id": doc.id,
+                  "count": reserveCount,
+                  "state": doc.data().state,
+                  "confirmNum": doc.data().confirmNum,
+                  "restName": doc.data().restName,
+                  "restLocation": doc.data().restLocation,
+                  "time": doc.data().appointment
+                };
+                reserveCount++;
+                generateReservation(reserveInfo);
+              });
+            } else {
+              let reserveInfo = {
+                  "id": doc.id,
+                  "count": reserveCount,
+                  "state": doc.data().state,
+                  "confirmNum": doc.data().confirmNum,
+                  "restName": doc.data().restName,
+                  "restLocation": doc.data().restLocation,
+                  "time": doc.data().appointment
+              };
+              reserveCount++;
+              generateReservation(reserveInfo);
+            }
           });
         });
       });
@@ -157,7 +178,7 @@
 
     grabReservationInfo();
 
-    const Reservation = ({id, count, state, confirmNum, restName, restLocation, time}) => `
+    const Reservation = ({id, count, state, confirmNum, restName, restLocation, day, date, hour}) => `
     <div class="${id}">
         <button class="accordion border">
           <h5 class="reservation-heading">Reservation #${count}</h5>
@@ -178,7 +199,7 @@
           </div>
           <div class="row">
             <p class="col-sm-3 font-weight-bold">Time</p>
-            <p class="col-sm-9 app-time">${time}</p>
+            <p class="col-sm-9 app-time">${day}, ${date}, ${hour}</p>
           </div>
           <table class="table text-center reservation-table-list">
             <thead>
@@ -206,28 +227,37 @@
 
     `;
 
-    function generateReservation(data) {
-      let {id, count, state, confirmNum, restName, restLocation, time} = data;
-      console.log(time.toDate());
-      time = time.toDate();
-      console.log(id);
-      console.log(data.id);
-      $(".container").append([
-        {id, count, state, confirmNum, restName, restLocation, time}
-      ].map(Reservation).join(""));
-    }
-    
-
-    // $(".container").append([
-    //   {id: "...", count: "...", state: "...", confirmNum: "...", restName: "...", restLocation: "...", time: "..."}
-    // ].map(Reservation).join(""));
-
     const Table = ({tableID,tableSeats}) => `
           <tr>
             <td>${tableID}</td>
             <td>${tableSeats}</td>
           </tr>
     `;
+
+    function generateReservation(data) {
+      let {id, count, state, confirmNum, restName, restLocation, time} = data;
+      state = setState(state);
+      time = time.toDate();
+      let day = ['Sunday',
+               'Monday',
+               'Tuesday',
+               'Wednesday',
+               'Thursday',
+               'Friday',
+               'Saturday'][time.getDay()];
+      let date = time.toLocaleDateString();
+      let hour = time.toLocaleTimeString();
+      $(".container").append([
+        {id, count, state, confirmNum, restName, restLocation, day, date, hour}
+      ].map(Reservation).join(""));
+    }
+    
+
+    function setState(stateNum) {
+      return stateNum === -1 ? "Outdated" : stateNum === 0 ? "Complete" : "In Progress";
+    }
+
+
 
     function addTable(tableList) {
       tableList.forEach(function (item) {
@@ -239,7 +269,6 @@
   </script>
   <script>
     $(".container").on("click", ".accordion", function (event) {
-      console.log(event.target);
       $(this).toggleClass("active-accordion");
       let panel = $(this).next();
       if ($(panel).css("display") === "block") {
