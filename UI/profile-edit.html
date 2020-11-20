@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>myTable</title>
+  <meta name="author" content="Team 14" />
+
+  <!-- Bootstrap for Mobile-first, and JQuery -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
+  <!-- Optional styles and scripts of your own -->
+  <link type="text/css" rel="stylesheet" href="profile-style.css" />
+</head>
+
+<body>
+  <!-------------------------------------->
+  <!-- The following is HTML for layout -->
+  <!-------------------------------------->
+  <nav class="navbar navbar-expand-lg navbar-light">
+    <a class="navbar-brand" href="">myTable</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" id="account" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="account" href="main.html">RESTAURANT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="account" href="reservation-history.html">RESERVATION</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" id="account">ACCOUNT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="logout" href="">LOG OUT</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="profile-container pt-5">
+    <div class="container">
+      <div class="card bg-light">
+        <div class="card-header text-center border-0">
+          <h1>Profile</h1>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <img class="card-img-top rounded img-thumbnail img-fluid" style="max-width:128px"
+              src="https://dummyimage.com/128x128/ffffff/ffffff.jpg" alt="profile-pic">
+          </div>
+          <div class="card-body">
+            <form class="user-info">
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="email">Email</label>
+                <div class="col-sm-9">
+                  <input type="email" class="form-control" id="email" placeholder="">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="text">Name</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" placeholder="" id="name">
+                </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-3 col-form-label" for="phone">Phone</label>
+                <div class="col-sm-9">
+                  <input type="tel" class="form-control" placeholder="" id="phone"
+                    pattern="[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{3}">
+                </div>
+              </div>
+              <div class="form-group row align-items-center new-pass-container">
+                <label class="col-sm-3 col-form-label" for="new-pass">New Password</label>
+                <div class="col-sm-9">
+                  <input type="password" class="form-control" id="new-pass" />
+                </div>
+              </div>
+              <div class="form-group row text-center mt-5 old-pass-container">
+                <label class="col-sm-12 col-form-label" for="old-passs">Enter original password to make changes</label>
+                <div class="mx-auto">
+                  <input type="password" class="form-control" id="old-pass" />
+                  <div class="invalid-feedback">Please input your password.</div>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="card-footer text-center border-0">
+          <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-edit">Cancel</button>
+          <button type="button" class="btn btn-secondary px-5 m-2" id="update-profile">Update</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!----------------------------------------------->
+  <!-- JS: Boostrap, Firebase, API related    -->
+  <!----------------------------------------------->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+  <!-- Firebase libraries from CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+  <script src="firebase-api-team14.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+
+  <!--------------------------------------------------------------------->
+  <!-- JS files: Your own JavaScript functions included here    -->
+  <!--------------------------------------------------------------------->
+  <!-- <script src="loginE.js"></script> -->
+  <script>
+    $(".card-footer").on("click", "#cancel-edit", function () {
+      window.location.href = "profile.html";
+    });
+
+    $(".card-footer").on("click", "#update-profile", function () {
+      if ($("#old-pass").val().length < 1) {
+        $("#old-pass").attr("class", "form-control is-invalid");
+      } else {
+        $("#old-pass").attr("class", "form-control");
+        grabUserInput();
+        $("#new-pass").val("");
+        $("#old-pass").val("");
+      }
+    });
+  </script>
+  <script>
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        db.collection("users")
+          .doc(user.uid)
+          .get()
+          .then(function (doc) {
+            let currentUser = {
+              email: doc.data().email,
+              name: doc.data().name,
+              phone: doc.data().phone
+            };
+            loadUserInfo(currentUser);
+          })
+
+      } else {
+        console.warn("Error: no user available.");
+        $("body").children().remove();
+        $("body").append(
+          '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
+        );
+        window.setTimeout(function () {
+          window.location.href = "index.html";
+        }, 2000);
+
+      }
+    });
+
+    function loadUserInfo(user) {
+      let {
+        email,
+        name,
+        phone
+      } = user;
+      console.log(email);
+      console.log(name);
+      console.log(phone);
+
+      $("#email").attr({
+        placeholder: email
+      });
+      $("#name").attr({
+        placeholder: name
+      });
+      $("#phone").attr({
+        placeholder: phone
+      });
+
+    }
+
+    function grabUserInput() {
+      let userInfo = {
+        email: $("#email").attr("placeholder"),
+        name: ($("#name").val().length > 0) ? $("#name").val() : $("#name").attr("placeholder"),
+        phone: ($("#phone").val().length > 0) ? $("#phone").val() : $("#phone").attr("placeholder"),
+        newPass: $("#new-pass").val(),
+        oldPass: $("#old-pass").val()
+      };
+      updateUserInfo(userInfo);
+    }
+
+    function updateUserInfo(userInfo) {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          let {
+            email,
+            name,
+            phone,
+            newPass,
+            oldPass
+          } = userInfo;
+          let credential = firebase.auth.EmailAuthProvider.credential(email, oldPass);
+          user.reauthenticateWithCredential(credential)
+            .then(function () {
+              let userDB = db.collection("users").doc(user.uid);
+              if (newPass.length < 1) {
+                user.updateProfile({
+                    displayName: name
+                  })
+                  .then(function () {
+                    userDB.update({
+                      "name": name,
+                      "phone": phone
+                    }).then(function () {
+                      window.location.href = "profile.html";
+                    });
+                  });
+              } else {
+                user.updateProfile({
+                    displayName: name
+                  })
+                  .then(function () {
+                    userDB.update({
+                      "name": name,
+                      "phone": phone
+                    }).then(function () {
+                      user.updatePassword(newPass)
+                        .then(function () {
+                          firebase.auth().signOut().then(function () {
+                            console.log("Success: log out");
+                            window.location.href = "index.html";
+                          }).catch(function (error) {
+                            console.warn("Error: log out failed");
+                          });
+                        }).catch(function () {
+                          console.warn("Error: password update failed!");
+                        });
+                    });
+                  });
+              }
+            }).catch(function (error) {
+              console.warn("Error: wrong pasword!");
+            });
+        } else {
+          console.warn("Error: no user!");
+        }
+      });
+    }
+  </script>
+</body>
+
+</html>

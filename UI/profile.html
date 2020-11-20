@@ -58,30 +58,22 @@
               src="https://dummyimage.com/128x128/ffffff/ffffff.jpg" alt="profile-pic">
           </div>
           <div class="card-body">
-            <form>
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="email">Email</label>
-                <div class="col-sm-10">
-                  <input type="email" class="form-control-plaintext" id="email" placeholder="" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="text">Name</label>
-                <div class="col-sm-10">
-                  <input type="text" class="form-control-plaintext" placeholder="" id="name" disabled>
-                </div>
-              </div>
-              <div class="form-group row">
-                <label class="col-sm-2 col-form-label" for="phone">Phone</label>
-                <div class="col-sm-10">
-                  <input type="tel" class="form-control-plaintext" placeholder="" id="phone" pattern="[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{3}" disabled>
-                </div>
-              </div>
-            </form>
+            <div class="row">
+              <p class="col-sm-3">Email</p>
+              <p class="col-sm-9" id="email"></p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3">Name</p>
+              <p class="col-sm-9" id="name"></p>
+            </div>
+            <div class="row">
+              <p class="col-sm-3">Phone</p>
+              <p class="col-sm-9" id="phone"></p>
+            </div>
           </div>
         </div>
         <div class="card-footer text-center border-0">
-          <button type="button" class="btn btn-secondary px-5 m-2" id="edit-profile">Edit</button>
+          <a href="profile-edit.html" type="button" class="btn btn-secondary px-5 m-2" id="edit-profile">Edit</a>
         </div>
       </div>
     </div>
@@ -115,50 +107,19 @@
   <!--------------------------------------------------------------------->
   <!-- <script src="loginE.js"></script> -->
   <script>
-    $("#edit-profile").on("click", function () {
-      console.log(this);
-      $("input").attr({
-        class: "form-control"
-      }).prop("disabled", false);
-      $("#edit-profile").hide();
-      $(".card-footer").append(
-        '<button type="button" class="btn btn-secondary px-5 m-2" id="cancel-edit">Cancel</button>');
-      $(".card-footer").append(
-        '<button type="button" class="btn btn-secondary px-5 m-2" id="update-profile">Update</button>');
-    });
-
-    $(".card-footer").on("click", "#cancel-edit", function () {
-      $("input").attr({
-        class: "form-control-plaintext"
-      });
-      $("#edit-profile").show();
-      $("#cancel-edit").remove();
-      $("#update-profile").remove();
-    });
-
-    $(".card-footer").on("click", "#update-profile", function () {
-      $("input").attr({
-        class: "form-control-plaintext"
-      });
-      $("#edit-profile").show();
-      $("#cancel-edit").remove();
-      $("#update-profile").remove();
-    });
-  </script>
-  <script>
     firebase.auth().onAuthStateChanged(function (user) {
       if (user) {
         db.collection("users")
-        .doc(user.uid)
-        .get()
-        .then(function(doc) {
-          let currentUser = {
-            email: doc.data().email,
-            name: doc.data().name,
-            phone: doc.data().phone
-          };
-          loadUserInfo(currentUser);
-        })
+          .doc(user.uid)
+          .get()
+          .then(function (doc) {
+            let currentUser = {
+              email: doc.data().email,
+              name: doc.data().name,
+              phone: doc.data().phone
+            };
+            loadUserInfo(currentUser);
+          })
 
       } else {
         console.warn("Error: no user available.");
@@ -166,28 +127,26 @@
         $("body").append(
           '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
         );
-        window.setTimeout(function() {
+        window.setTimeout(function () {
           window.location.href = "index.html";
         }, 2000);
-        
+
       }
     });
 
     function loadUserInfo(user) {
-      let {email, name, phone} = user;
+      let {
+        email,
+        name,
+        phone
+      } = user;
       console.log(email);
       console.log(name);
       console.log(phone);
 
-      $("#email").attr({
-        placeholder: email
-      });
-      $("#name").attr({
-        placeholder: name
-      });
-      $("#phone").attr({
-        placeholder: phone
-      });
+      $("#email").text(email);
+      $("#name").text(name);
+      $("#phone").text(phone);
 
     }
   </script>
