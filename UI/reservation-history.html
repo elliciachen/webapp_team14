@@ -50,7 +50,7 @@
   <div class="reservation-history-container pt-5">
     <div class="container border py-3" id="reservation-custom-color">
       <h1 class="text-center pb-3">Reservation History</h1>
-      <div class="reservationID">
+      <!-- <div class="reservationID">
         <button class="accordion reservationID border">
           <h5 class="reservation-heading">Reservation #1</h5>
           <h5 class="reservation-state float-right">In Progress</h5>
@@ -94,7 +94,7 @@
             <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-reservation">Cancel</button>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
   </div>
 
@@ -153,7 +153,8 @@
                   "confirmNum": doc.data().confirmNum,
                   "restName": doc.data().restName,
                   "restLocation": doc.data().restLocation,
-                  "time": doc.data().appointment
+                  "time": doc.data().appointment,
+                  "tables": doc.data().tables
                 };
                 reserveCount++;
                 generateReservation(reserveInfo);
@@ -166,8 +167,10 @@
                   "confirmNum": doc.data().confirmNum,
                   "restName": doc.data().restName,
                   "restLocation": doc.data().restLocation,
-                  "time": doc.data().appointment
+                  "time": doc.data().appointment,
+                  "tables": doc.data().tables
               };
+              console.log(typeof(doc.data().tables));
               reserveCount++;
               generateReservation(reserveInfo);
             }
@@ -201,7 +204,7 @@
             <p class="col-sm-3 font-weight-bold">Time</p>
             <p class="col-sm-9 app-time">${day}, ${date}, ${hour}</p>
           </div>
-          <table class="table text-center reservation-table-list">
+          <table class="table text-center reservation-table-list ${id}">
             <thead>
               <tr>
                 <th>Table</th>
@@ -209,14 +212,6 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Table 1</td>
-                <td>3</td>
-              </tr>
-              <tr>
-                <td>Table 2</td>
-                <td>4</td>
-              </tr>
             </tbody>
           </table>
           <div class="text-center">
@@ -227,10 +222,10 @@
 
     `;
 
-    const Table = ({tableID,tableSeats}) => `
+    const Table = ({table, seats}) => `
           <tr>
-            <td>${tableID}</td>
-            <td>${tableSeats}</td>
+            <td>${table}</td>
+            <td>${seats}</td>
           </tr>
     `;
 
@@ -250,6 +245,13 @@
       $(".container").append([
         {id, count, state, confirmNum, restName, restLocation, day, date, hour}
       ].map(Reservation).join(""));
+
+      let tables = data.tables;
+      for (const [table, seats] of Object.entries(tables)) {
+        $(`table.${id} > tbody`).append([
+          {table,seats}
+        ].map(Table).join(''));
+      }
     }
     
 
