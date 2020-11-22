@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation History</title>
+  <meta name="author" content="Team 14" />
+
+  <!-- Bootstrap for Mobile-first, and JQuery -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
+
+  <!-- Optional styles and scripts of your own -->
+  <link type="text/css" rel="stylesheet" href="reservation-history-style.css" />
+
+</head>
+
+<body>
+  <!-------------------------------------->
+  <!-- The following is HTML for layout -->
+  <!-------------------------------------->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="">myTable</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav ml-auto">
+        <li class="nav-item">
+          <a class="nav-link" id="account" href="index.html">HOME</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="account" href="main.html">RESTAURANT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" id="account">RESERVATION</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="account" href="profile.html">ACCOUNT</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="logout" href="">LOG OUT</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="reservation-history-container pt-5">
+    <div class="container border py-3" id="reservation-custom-color">
+      <h1 class="text-center pb-3">Reservation History</h1>
+      <button class="accordion reservationID border">
+        <h5 class="reservation-heading">Reservation #1</h5>
+        <h5 class="reservation-state float-right">In Progress</h5>
+      </button>
+      <div class="panel pt-2 reservationID">
+        <form>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="restaurant">Restaurant</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-plaintext" id="restaurant-name" placeholder="Mango's Tea House" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="location">Location</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-plaintext" id="restaurant-location" placeholder="#105-6888 Royal Oak Avenue, Burnaby, V5J 4J2" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="date">Date</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-plaintext" id="date" placeholder="November 18" disabled>
+            </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label" for="time">Time</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control-plaintext" id="time" placeholder="13:00" disabled>
+            </div>
+          </div>
+        </form>
+        <table class="table text-center">
+          <thead>
+            <tr>
+              <th>Table</th>
+              <th>Seats</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Table 1</td>
+              <td>3</td>
+            </tr>
+            <tr>
+              <td>Table 2</td>
+              <td>4</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center">
+          <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-reservation">Cancel</button>
+        </div>
+      </div>
+  
+      <button class="accordion">Section 2</button>
+      <div class="panel">
+        <p>Lorem ipsum...</p>
+      </div>
+  
+      <button class="accordion">Section 3</button>
+      <div class="panel">
+        <p>Lorem ipsum...</p>
+      </div>
+    </div>
+  </div>
+
+
+  <!----------------------------------------------->
+  <!-- JS: Boostrap, Firebase, API related    -->
+  <!----------------------------------------------->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+    integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+    integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+    integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous">
+  </script>
+
+  <!-- Firebase libraries from CDN -->
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+  <script src="firebase-api-team14.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
+
+  <!--------------------------------------------------------------------->
+  <!-- JS files: Your own JavaScript functions included here    -->
+  <!--------------------------------------------------------------------->
+  <script>
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+      acc[i].addEventListener("click", function () {
+        /* Toggle between adding and removing the "active" class,
+        to highlight the button that controls the panel */
+        this.classList.toggle("active-accordion");
+
+        /* Toggle between hiding and showing the active panel */
+        var panel = this.nextElementSibling;
+        if (panel.style.display === "block") {
+          panel.style.display = "none";
+        } else {
+          panel.style.display = "block";
+        }
+      });
+    }
+
+    // Actual stuff here
+    $(".reservation-history-container").on("click", "#cancel-reservation", function() {
+      $(".reservationID").remove();
+    });
+  </script>
+</body>
+
+</html>
