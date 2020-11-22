@@ -22,6 +22,7 @@ function readQuote() {
                 .attr("type", "button").attr("href", "table-info.html").click(function () {
                     localStorage.setItem("seats", doc.data().seats);
                 });
+
             $("#div1").append(p2);
 
 
