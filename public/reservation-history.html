@@ -13,7 +13,7 @@
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
   <!-- Optional styles and scripts of your own -->
-  <link type="text/css" rel="stylesheet" href="reservation-history-style.css" />
+  <link type="text/css" rel="stylesheet" href="styles/reservation-history-style.css" />
 
 </head>
 
@@ -139,6 +139,7 @@
 
       }
     });
+    
     $(".reservation-history-container").on("click", "#cancel-reservation", function (event) {
       $(event.target).parent().parent().parent().remove();
     });

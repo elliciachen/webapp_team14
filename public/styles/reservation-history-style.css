@@ -1,0 +1,50 @@
+.reservation-history-container {
+  background-color: #f8f8f8;
+}
+
+/* layout style */
+body {
+  width: 100%; height: 100%;
+  box-sizing: border-box;
+}
+
+.reservation-history-container {
+  /* display: block;
+  overflow: auto; */
+  width: 96%; height: 100vh;
+  margin: 0 auto;  
+}
+
+.reservation-heading {
+  display: inline;
+}
+
+#reservation-custom-color {
+  background-color: #ffffff;
+}
+
+/* Style the buttons that are used to open and close the accordion panel */
+.accordion {
+  background-color: #eee;
+  color: #444;
+  cursor: pointer;
+  padding: 18px;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+.active-accordion, .accordion:hover {
+  background-color: rgb(216, 215, 215);
+}
+
+/* Style the accordion panel. Note: hidden by default */
+.panel {
+  padding: 0 18px;
+  background-color: white;
+  display: none;
+  overflow: hidden;
+}
