@@ -1,0 +1,36 @@
+#bar {
+    width: 100%;
+    display: flex;
+    background-color: rgb(245, 239, 239);
+    justify-content: space-around;
+    border-top: 2px solid gray;
+    border-bottom: 2px solid gray;
+    text-align: center;
+}
+
+.card {
+    width: 100%;
+    text-align: center;
+    margin: auto;
+    background-color: #ffe4ba;
+}
+
+.nav-item>img {
+    padding-top: 5px;
+}
+
+.nav-item>p {
+    margin: 0%;
+    color: black;
+}
+
+.textDiv {
+    background-color: #ffe4ba;
+    height: 50%;
+    padding-top: 45px;
+    padding-bottom: 5%;
+}
+
+.text {
+    text-align: center;
+}

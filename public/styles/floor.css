@@ -1,0 +1,44 @@
+html,
+body {
+  padding: 0px;
+  margin: 0px;
+  display: flex;
+}
+
+body {
+  font-family: 'Hind', sans-serif;
+  padding: 1%;
+  background-color: #B37412;
+}
+
+#con {
+  width: 98vw;
+  height: 96vh;
+  background-color: white;
+  margin: auto;
+}
+
+html body {
+  background-color: #c78315;
+}
+.buttonST{
+  width: 100px;
+  height: 30px;
+  border: 1px solid gray;
+  margin-bottom: 2px;
+}
+
+/*-------------------------------------------------------
+* for tables
+*------------------------------------------------------
+*/
+.btn-table {
+  width: 120px;
+  height: 110px;
+  padding: 10px 16px;
+  border-radius: 35px;
+  font-size: 2rem;
+  text-align: center;
+  margin-top: 7vw;
+  background-color: rgb(255, 197, 6);
+}

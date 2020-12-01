@@ -51,5 +51,19 @@ function displayFruits() {
     });
 
 
+    var timeslocal = localStorage.getItem("timeArray");
+    var times = JSON.parse(timeslocal);
+    console.log(times[1][0]);
+
+    // times.forEach(function (ff) {console.log(times[1]);})
+
+    // for(var i = 0; i < times.length; i++) {
+    //     for(var j = 0; j < times[i].length; j++) {
+    //         console.log(times[i][j]);
+    //         //console.log("time[" + i + "][" + j + "] = " + time[j]);
+    //     }
+    // }
+
+
 }
 displayFruits();

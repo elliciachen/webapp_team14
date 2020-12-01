@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css"
+        integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
+
+    <title>Table Info</title>
+
+
+    <style>
+        body {
+            background-color: #B37412;
+        }
+
+        #con {
+            width: 96vw;
+            height: 100vh;
+            background-color: white;
+            margin: auto;
+        }
+
+        .tableImage {
+            width: 60%;
+            height: 55%;
+            border-radius: 50%;
+        }
+
+        .seatsNumber {
+            font-size: 30px;
+        }
+    </style>
+
+
+</head>
+
+<body>
+    <div id="con">
+        <div class="container">
+            <div class="row">
+                <div class="col text-center" id="card">
+                    <br>
+                    <br>
+                    <img class="tableImage" src="images/table2.jpg">
+                    <br>
+                    <br>
+                    <br>
+                    <p class="seatsNumber"></p>
+                    <p class="card-text"></p>
+                    <br>
+                    <a class="btn btn-primary" href="#" role="button" onclick="myfunction()">Reserve</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Option 1: jQuery and Bootstrap Bundle (includes Popper) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous">
+    </script>
+
+
+    <!-- Firebase libraries from CDN -->
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
+    <script src="https://cdn.firebase.com/libs/firebaseui/3.5.2/firebaseui.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
+
+    <!-- Your own Firebase API key information -->
+    <script src="scripts/firebase-api-myTable.js"> </script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+
+    <script src="scripts/table-info-js.js"> </script>
+</body>
+
+</html>
