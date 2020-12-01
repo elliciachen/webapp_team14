@@ -1,3 +1,15 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+nav.navbar {
+  background-color: var(--level5) !important;
+}
+
+img.logo-icon {
+  width: 40px;
+}
+
 #bar {
     width: 100%;
     display: flex;
@@ -12,7 +24,7 @@
     width: 100%;
     text-align: center;
     margin: auto;
-    background-color: #ffe4ba;
+    background-color: var(--level2);
 }
 
 .nav-item>img {
@@ -25,7 +37,7 @@
 }
 
 .textDiv {
-    background-color: #ffe4ba;
+    background-color: var(--level2);
     height: 50%;
     padding-top: 45px;
     padding-bottom: 5%;
@@ -33,4 +45,14 @@
 
 .text {
     text-align: center;
+}
+
+a#reservation-button {
+  color: var(--level1);
+  background-color: var(--level5);
+}
+
+a#reservation-button:hover {
+  color: var(--level1);
+  background-color: var(--level4);
 }
