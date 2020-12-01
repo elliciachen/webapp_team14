@@ -22,8 +22,6 @@ function displayTableInfo() {
 
 
 
-
-
     // Future Work
 
     // var tables = localStorage.getItem("tableArray");
@@ -41,7 +39,7 @@ displayTableInfo();
 
 
 // change the status of slots
-function myfunction() {
+document.getElementById("myReserveButton").addEventListener('click', function () {
     var tableID = localStorage.getItem("tableid");
     console.log(tableID);
 
@@ -52,19 +50,25 @@ function myfunction() {
         db.collection("Restaurants").doc("RestaurantID").collection("tables").doc(tableID)
             .update({
                 slot1: false
+            }).then(function () {
+                window.location.href = "finalpage.html";
             })
     }
     if (slot == "slot2") {
         db.collection("Restaurants").doc("RestaurantID").collection("tables").doc(tableID)
             .update({
                 slot2: false
+            }).then(function () {
+                window.location.href = "finalpage.html";
             })
     }
     if (slot == "slot3") {
         db.collection("Restaurants").doc("RestaurantID").collection("tables").doc(tableID)
             .update({
                 slot3: false
+            }).then(function () {
+                window.location.href = "finalpage.html";
             })
     }
 
-}
+})
