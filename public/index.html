@@ -10,7 +10,6 @@
   <!-- Bootstrap for Mobile-first, and JQuery -->
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
-  <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
   <!-- Optional styles and scripts of your own -->
   <link rel="preconnect" href="https://fonts.gstatic.com">
@@ -65,33 +64,13 @@
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-auth.js"></script>
   <script src="https://www.gstatic.com/firebasejs/8.0.0/firebase-firestore.js"></script>
 
-  <script src="scripts/firebase-api-team14.js"></script>
+  <script src="scripts/firebase-api-myTable.js"></script>
   <script src="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.js"></script>
 
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
-
-  <script>
-    // Logout any logged in users if visiting index.html
-    function logout() {
-      firebase.auth().onAuthStateChanged(function (user) {
-        if (user) {
-          console.log(`Info: ${user.displayName}`);
-          firebase.auth().signOut().then(function () {
-            console.log("Success: log out");
-          }).catch(function (error) {
-            console.warn("Error: log out failed");
-          })
-        } else {
-          console.log("Log: no user available.")
-        }
-      });
-    }
-    logout();
-  </script>
-
-
+  <script src="scripts/logout.js"></script>
 </body>
 
 </html>

@@ -17,23 +17,32 @@ Maurice Tsai - [mauricetsai](https://github.com/mauricetsai)
 Technologies used for this project:
 * HTML, CSS
 * JavaScript
+* JQuery
 * Bootstrap
+* Google Font
+* Font Awesome Icon
 
 ## Content
 Content of the project folder:
 
 ```
  Top level of project folder: 
+├── .firebaserc              # ... 
+├── firebase.json            # ...
+├── database.rules.json      # ... 
 ├── .gitignore               # Git ignore file
-├── index.html               # landing HTML file, this is what users see when you come to url
+├── public                   # folder for deployment
+├── prototype                # folder for files that were not used for deployment
 └── README.md
 
-It has the following subfolders and files:
-├── .git                     # Folder for git repo
+public has the following subfolders and files:
+├── index.html               # landing HTML file, this is what users see when you come to url
 ├── images                   # Folder for images
-    /blah.jpg                # 
+    /profile.svg             # 
+    /table.svg               # 
 ├── scripts                  # Folder for scripts
-    /blah.js                 # 
+    /firebase-api-team14.js  # Project key (Do not push to repo)
+    /login.js                #
 ├── styles                   # Folder for styles
     /blah.css                # 
 
@@ -42,8 +51,3 @@ Firebase hosting files:
 
 
 ```
-
-Tips for file naming files and folders:
-* use lowercase with no spaces
-* use dashes (not underscore) for word separation
-
