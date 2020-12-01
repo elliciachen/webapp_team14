@@ -13,6 +13,9 @@
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
   <!-- Optional styles and scripts of your own -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="styles/colour.css" />
   <link type="text/css" rel="stylesheet" href="styles/profile-style.css" />
 </head>
 
@@ -20,16 +23,17 @@
   <!-------------------------------------->
   <!-- The following is HTML for layout -->
   <!-------------------------------------->
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="">myTable</a>
+  <!-- Merge this page with profile.html if there is time at the end -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="index.html">
+      myTable
+      <img class="img-fluid logo-icon" src="images/table.svg" alt="">
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" id="home" href="index.html">HOME</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" id="restaurant" href="main.html">RESTAURANT</a>
         </li>
@@ -46,31 +50,31 @@
     </div>
   </nav>
 
-  <div class="profile-container pt-5">
-    <div class="container">
+  <div class="profile-container">
+    <div class="container col-12 col-md-10 col-x-8 col-xl-6">
       <div class="card bg-light">
-        <div class="card-header text-center border-0">
-          <h1>Profile</h1>
-        </div>
         <div class="card-body">
           <div class="text-center">
-            <img class="card-img-top rounded img-thumbnail img-fluid" style="max-width:128px"
-              src="https://dummyimage.com/128x128/ffffff/ffffff.jpg" alt="profile-pic">
+            <img class="card-img-top rounded img-thumbnail img-fluid" style="max-width:128px" src="images/profile.svg"
+              alt="profile-pic">
           </div>
           <div class="card-body">
             <form class="user-info">
+              <!-- Email -->
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label" for="email">Email</label>
                 <div class="col-sm-9">
                   <input type="email" class="form-control" id="email" placeholder="">
                 </div>
               </div>
+              <!-- Name -->
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label" for="text">Name</label>
                 <div class="col-sm-9">
                   <input type="text" class="form-control" placeholder="" id="name">
                 </div>
               </div>
+              <!-- Phone -->
               <div class="form-group row">
                 <label class="col-sm-3 col-form-label" for="phone">Phone</label>
                 <div class="col-sm-9">
@@ -78,13 +82,15 @@
                     pattern="[0-9]{1}-[0-9]{3}-[0-9]{3}-[0-9]{3}">
                 </div>
               </div>
+              <!-- New Password -->
               <div class="form-group row align-items-center new-pass-container">
                 <label class="col-sm-3 col-form-label" for="new-pass">New Password</label>
                 <div class="col-sm-9">
                   <input type="password" class="form-control" id="new-pass" />
                 </div>
               </div>
-              <div class="form-group row text-center mt-5 old-pass-container">
+              <!-- Old Password -->
+              <div class="form-group row text-center mt-2 old-pass-container">
                 <label class="col-sm-12 col-form-label" for="old-passs">Enter original password to make changes</label>
                 <div class="mx-auto">
                   <input type="password" class="form-control" id="old-pass" />
@@ -94,7 +100,7 @@
             </form>
           </div>
         </div>
-        <div class="card-footer text-center border-0">
+        <div class="card-footer text-center border-top">
           <button type="button" class="btn btn-secondary px-5 m-2" id="cancel-edit">Cancel</button>
           <button type="button" class="btn btn-secondary px-5 m-2" id="update-profile">Update</button>
         </div>
@@ -130,55 +136,43 @@
   <!--------------------------------------------------------------------->
   <!-- <script src="loginE.js"></script> -->
   <script>
-    $(".card-footer").on("click", "#cancel-edit", function () {
-      window.location.href = "profile.html";
-    });
+    // Check if there is a valid user, otherwise redirect to index page
+    function checkUser() {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          db.collection("users")
+            .doc(user.uid)
+            .get()
+            .then(function (doc) {
+              let currentUser = {
+                email: doc.data().email,
+                name: doc.data().name,
+                phone: doc.data().phone
+              };
+              loadUserInfo(currentUser);
+            });
+        } else {
+          console.warn("Error: no user available.");
+          $("body").children().remove();
+          $("body").append(
+            '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
+          );
+          window.setTimeout(function () {
+            window.location.href = "index.html";
+          }, 500);
+        }
+      });
+    }
+    checkUser();
 
-    $(".card-footer").on("click", "#update-profile", function () {
-      if ($("#old-pass").val().length < 1) {
-        $("#old-pass").attr("class", "form-control is-invalid");
-      } else {
-        $("#old-pass").attr("class", "form-control");
-        grabUserInput();
-        $("#new-pass").val("");
-        $("#old-pass").val("");
-      }
-    });
-  </script>
-  <script>
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        db.collection("users")
-          .doc(user.uid)
-          .get()
-          .then(function (doc) {
-            let currentUser = {
-              email: doc.data().email,
-              name: doc.data().name,
-              phone: doc.data().phone
-            };
-            loadUserInfo(currentUser);
-          })
-
-      } else {
-        console.warn("Error: no user available.");
-        $("body").children().remove();
-        $("body").append(
-          '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
-        );
-        window.setTimeout(function () {
-          window.location.href = "index.html";
-        }, 2000);
-
-      }
-    });
-
+    // Get user details from database and display in placeholder attribute
     function loadUserInfo(user) {
       let {
         email,
         name,
         phone
       } = user;
+
       console.log(email);
       console.log(name);
       console.log(phone);
@@ -192,9 +186,10 @@
       $("#phone").attr({
         placeholder: phone
       });
-
     }
 
+    // Get user input inside profile text fields
+    // If there is no input, then get the placeholder attribute value
     function grabUserInput() {
       let userInfo = {
         email: $("#email").attr("placeholder"),
@@ -205,6 +200,104 @@
       };
       updateUserInfo(userInfo);
     }
+
+
+    function reauthenticate() {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          let {
+            email,
+            name,
+            phone,
+            newPass,
+            oldPass
+          } = userInfo;
+          let credential = firebase.auth.EmailAuthProvider.credential(email, oldPass);
+          user.reauthenticateWithCredential(credential)
+            .then(function () {
+              let userDB = db.collection("users").doc(user.uid);
+            })
+            .catch(function (error) {
+              console.warn("Error: wrong pasword!");
+            });
+        } else {
+          console.warn("No user found!");
+        }
+      });
+    }
+
+    // Update profile without new password
+    function updateDateProfileNoNewPass(user, doc) {
+      user.updateProfile({
+          displayName: name
+        })
+        .then(function () {
+          doc.update({
+            "name": name,
+            "phone": phone
+          }).then(function () {
+            window.location.href = "profile.html";
+          });
+        });
+    }
+
+
+    // Update profile with new password
+    // Logout user and redirect to index.html
+
+    // Cancel editing profile
+    function cancelEditProfile() {
+      $(".card-footer").on("click", "#cancel-edit", function () {
+        window.location.href = "profile.html";
+      });
+    }
+    cancelEditProfile();
+
+    // Update profile, write to database
+    function updateProfile() {
+      $(".card-footer").on("click", "#update-profile", function () {
+        if ($("#old-pass").val().length < 1) {
+          $("#old-pass").attr("class", "form-control is-invalid");
+        } else {
+          $("#old-pass").attr("class", "form-control");
+          grabUserInput();
+          $("#new-pass").val("");
+          $("#old-pass").val("");
+        }
+      });
+    }
+    updateProfile();
+  </script>
+  <script>
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //   if (user) {
+    //     db.collection("users")
+    //       .doc(user.uid)
+    //       .get()
+    //       .then(function (doc) {
+    //         let currentUser = {
+    //           email: doc.data().email,
+    //           name: doc.data().name,
+    //           phone: doc.data().phone
+    //         };
+    //         loadUserInfo(currentUser);
+    //       })
+
+    //   } else {
+    //     console.warn("Error: no user available.");
+    //     $("body").children().remove();
+    //     $("body").append(
+    //       '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
+    //     );
+    //     window.setTimeout(function () {
+    //       window.location.href = "index.html";
+    //     }, 2000);
+
+    //   }
+    // });
+
+
+
 
     function updateUserInfo(userInfo) {
       firebase.auth().onAuthStateChanged(function (user) {

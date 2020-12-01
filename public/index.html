@@ -13,6 +13,9 @@
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
   <!-- Optional styles and scripts of your own -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+  <link type="text/css" rel="stylesheet" href="styles/colour.css" />
   <link type="text/css" rel="stylesheet" href="styles/index-style.css" />
 </head>
 
@@ -26,8 +29,8 @@
       <h1 class="website-title">myTable</h1>
     </div>
     <a href="login.html" class="login">Visit</a>
-    <p class="catch-phrase">Reserve tables anytime, anywhere</p>
-    <p class="floor-plan-guide-text">Free to select the table you want</p>
+    <p class="catch-phrase lead font-weight-bold">Reserve tables anytime, anywhere</p>
+    <p class="floor-plan-guide-text">You can select the table you want</p>
     <div class="guide-pic">
       <img class="" src="https://dummyimage.com/1600x1000/fff/fff.jpg" alt="">
     </div>
@@ -68,20 +71,24 @@
   <!--------------------------------------------------------------------->
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
+
   <script>
-    // Logout any logged in users if visite index.html
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        console.log(`Info: ${user.displayName}`);
-        firebase.auth().signOut().then(function () {
-          console.log("Success: log out");
-        }).catch(function (error) {
-          console.warn("Error: log out failed");
-        })
-      } else {
-        console.log("Log: no user available.")
-      }
-    });
+    // Logout any logged in users if visiting index.html
+    function logout() {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          console.log(`Info: ${user.displayName}`);
+          firebase.auth().signOut().then(function () {
+            console.log("Success: log out");
+          }).catch(function (error) {
+            console.warn("Error: log out failed");
+          })
+        } else {
+          console.log("Log: no user available.")
+        }
+      });
+    }
+    logout();
   </script>
 
 

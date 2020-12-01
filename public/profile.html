@@ -13,6 +13,9 @@
   <link type="text/css" rel="stylesheet" href="https://www.gstatic.com/firebasejs/ui/4.6.1/firebase-ui-auth.css" />
 
   <!-- Optional styles and scripts of your own -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="styles/colour.css" />
   <link type="text/css" rel="stylesheet" href="styles/profile-style.css" />
 </head>
 
@@ -20,16 +23,16 @@
   <!-------------------------------------->
   <!-- The following is HTML for layout -->
   <!-------------------------------------->
-  <nav class="navbar navbar-expand-lg navbar-light">
-    <a class="navbar-brand" href="">myTable</a>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <a class="navbar-brand" href="index.html">
+      myTable
+      <img class="img-fluid logo-icon" src="images/table.svg" alt="">
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a class="nav-link" id="home" href="index.html">HOME</a>
-        </li>
         <li class="nav-item">
           <a class="nav-link" id="restaurant" href="main.html">RESTAURANT</a>
         </li>
@@ -46,34 +49,38 @@
     </div>
   </nav>
 
-  <div class="profile-container pt-5">
-    <div class="container">
+  <!-- col-sm-3 col-sm-9 -->
+  <div class="profile-container">
+    <div class="container col-12 col-md-10 col-x-8 col-xl-6">
       <div class="card bg-light">
-        <div class="card-header text-center border-0">
-          <h1>Profile</h1>
-        </div>
         <div class="card-body">
           <div class="text-center">
-            <img class="card-img-top rounded img-thumbnail img-fluid" style="max-width:128px"
-              src="https://dummyimage.com/128x128/ffffff/ffffff.jpg" alt="profile-pic">
+            <img class="card-img-top rounded img-thumbnail img-fluid" style="max-width:128px" src="images/profile.svg"
+              alt="profile-pic">
           </div>
           <div class="card-body">
+            <!-- Email -->
             <div class="row">
-              <p class="col-sm-3">Email</p>
+              <p class="col-sm-3 border-bottom">Email</p>
               <p class="col-sm-9" id="email"></p>
             </div>
+            <!-- Name -->
             <div class="row">
-              <p class="col-sm-3">Name</p>
+              <p class="col-sm-3 border-bottom">Name</p>
               <p class="col-sm-9" id="name"></p>
             </div>
+            <!-- Phone -->
             <div class="row">
-              <p class="col-sm-3">Phone</p>
+              <p class="col-sm-3 border-bottom">Phone</p>
               <p class="col-sm-9" id="phone"></p>
             </div>
           </div>
         </div>
-        <div class="card-footer text-center border-0">
-          <a href="profile-edit.html" type="button" class="btn btn-secondary px-5 m-2" id="edit-profile">Edit</a>
+        <div class="card-footer text-center border-top">
+
+          <button class="btn btn-secondary px-5 m-2" id="edit-profile">Edit</button>
+
+
         </div>
       </div>
     </div>
@@ -106,33 +113,36 @@
   <!-- JS files: Your own JavaScript functions included here    -->
   <!--------------------------------------------------------------------->
   <script>
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        db.collection("users")
-          .doc(user.uid)
-          .get()
-          .then(function (doc) {
-            let currentUser = {
-              email: doc.data().email,
-              name: doc.data().name,
-              phone: doc.data().phone
-            };
-            loadUserInfo(currentUser);
-          })
+    // Check if there is a valid user, otherwise redirect to index page
+    function checkUser() {
+      firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          db.collection("users")
+            .doc(user.uid)
+            .get()
+            .then(function (doc) {
+              let currentUser = {
+                email: doc.data().email,
+                name: doc.data().name,
+                phone: doc.data().phone
+              };
+              loadUserInfo(currentUser);
+            });
+        } else {
+          console.warn("Error: no user available.");
+          $("body").children().remove();
+          $("body").append(
+            '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
+          );
+          window.setTimeout(function () {
+            window.location.href = "index.html";
+          }, 500);
+        }
+      });
+    }
+    checkUser();
 
-      } else {
-        console.warn("Error: no user available.");
-        $("body").children().remove();
-        $("body").append(
-          '<div class="alert alert-warning mt-3"><strong>Warning!</strong><p>There is no user logged in!</p></div>'
-        );
-        window.setTimeout(function () {
-          window.location.href = "index.html";
-        }, 2000);
-
-      }
-    });
-
+    // Get user details from database and diplay in browser
     function loadUserInfo(user) {
       let {
         email,
@@ -147,6 +157,14 @@
       $("#name").text(name);
       $("#phone").text(phone);
     }
+
+
+    function editProfile() {
+      $(".card-footer").on("click", "#edit-profile", function () {
+        window.location.href = "profile-edit.html";
+      });
+    }
+    editProfile();
   </script>
 </body>
 

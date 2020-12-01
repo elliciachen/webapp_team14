@@ -1,27 +1,66 @@
-nav {
-  background-color: rgb(208, 213, 218);
+/* Colour section */
+body {
+  color: var(--level6);
+  background-color: var(--level1); 
 }
 
-.profile-container {
-  background-color: #f8f8f8;
+p.border-bottom {
+  border-color: var(--level1) !important;
+  box-shadow: 0px 2px var(--level5);
 }
 
-/*  */
-
-* {
-  margin: 0;
-  border: 0;
-  padding: 0;
+div.profile-container {
+  background-color: var(--level2); 
 }
 
+nav.navbar {
+  background-color: var(--level5) !important; 
+}
+
+div.card-footer,
+div.card-body {
+  background-color: var(--level1);
+}
+
+button#edit-profile,
+button#cancel-edit,
+button#update-profile {
+  color: var(--level1);
+  background-color: var(--level5);
+}
+
+button#edit-profile:hover,
+button#cancel-edit:hover,
+button#update-profile:hover {
+  color: var(--level1);
+  background-color: var(--level4);
+}
+
+.form-control:focus {
+  border-color: var(--level4);
+  box-shadow: inset 0 1px 1px var(--level3), 0 0 3px var(--level3);
+}
+
+
+/* Layout Style */
+html,
 body {
   width: 100%; height: 100%;
-  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+body > * {
+  flex-shrink: 0;
+}
+
+img.logo-icon {
+  width: 40px;
 }
 
 .profile-container {
-  /* display: block;
-  overflow: auto; */
-  width: 96%; height: 100vh;
+  width: 96%;
   margin: 0 auto;
+  flex-grow: 1;
 }
