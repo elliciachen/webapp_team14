@@ -1,4 +1,5 @@
-    // Check if there is a valid user, call loadUserInfo,
+    // Check if there is a valid user,
+    // if valid, pass new user info object to loadUserInfo,
     // otherwise redirect to index page
     function checkUser() {
       firebase.auth().onAuthStateChanged(function (user) {
@@ -51,7 +52,9 @@
       });
     }
 
-    // Call grabUserInput when selecting "update" button
+    // On click "update" button, 
+    //if field for original password has values, function will call grabUserInput
+    //else set field to invalid input
     function updateProfile() {
       $(".card-footer").on("click", "#update-profile", function () {
         if ($("#old-pass").val().length < 1) {
@@ -66,7 +69,7 @@
     }
     updateProfile();
 
-    // Get user input inside profile text fields
+    // Get user input from profile text fields
     // If there is no input, then get the placeholder attribute value
     // Call reauthenticate to start profile update
     function grabUserInput() {
@@ -82,8 +85,11 @@
     }
 
     // Reauthenticate for updating profile
-    // If password is not changed, call updateProfileNoNewPass
-    // if password is changed, call updateProfileNewPass
+    // access current user document from database
+    // If password is not changed,
+    //  pass current user, user document, and new user data from grabUserInput to updateProfileNoNewPass
+    // if password is changed, 
+    //  pass current user, user document, and new user data from grabUserInput toupdateProfileNewPass
     function reauthenticate(userData) {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -114,6 +120,9 @@
     }
 
     // Update profile without new password
+    // Update firebase authenticated users database
+    // Update app firestore database (user document)
+    // Requires current user, user document, and new user data from grabUserInput
     function updateProfileNoNewPass(user, doc, userData) {
       user.updateProfile({
           displayName: userData.name
@@ -130,6 +139,9 @@
 
 
     // Update profile with new password
+    // Requires current user, user document, and new user data from grabUserInput
+    // Update firebase authenticated users database
+    // Update app firestore database (user document)
     // Logout user and redirect to index.html
     function updateProfileNewPass(user, userDB, userData) {
       user.updateProfile({
@@ -155,7 +167,8 @@
         });
     }
 
-    // Cancel editing profile
+    // On click "cancel", redirect to profile.html
+    // Consider to merge profile-edit.html with profile.html
     function cancelEditProfile() {
       $(".card-footer").on("click", "#cancel-edit", function () {
         window.location.href = "profile.html";

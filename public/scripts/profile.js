@@ -1,4 +1,6 @@
-    // Check if there is a valid user, otherwise redirect to index page
+    // Check if there is a valid user,
+    // if valid, read user info from database and pass value to loadUserInfo
+    // otherwise redirect to index page
     function checkUser() {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
@@ -27,7 +29,7 @@
     }
     checkUser();
 
-    // Get user details from database and diplay in browser
+    // Get user details from database and display in browser
     function loadUserInfo(user) {
       let {
         email,
@@ -44,6 +46,8 @@
     }
 
 
+    // On clicking "edit" button, users are redirected to profile-edit.html
+    // Consider merging profile-edit.html with profile.html
     function editProfile() {
       $(".card-footer").on("click", "#edit-profile", function () {
         window.location.href = "profile-edit.html";

@@ -1,11 +1,17 @@
-    // Check if there is a valid user, otherwise redirect to index page
+    // Check if there is a valid user, 
+    // if valid, get current user' reservations from database
+    //  3 calls for different reservation states, 1 to get current, 1 to get completed, and 1 to get outdated
+    // otherwise redirect to index page
     function checkUser() {
       firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
+          let current = 0;
+          let complete = 1;
+          let outdated = -1;
           console.log("Valid user.");
-          getReservation(0, "current");
-          getReservation(1, "completed");
-          getReservation(-1, "outdated");
+          getReservation(current, "current");
+          getReservation(complete, "completed");
+          getReservation(outdated, "outdated");
 
         } else {
           console.warn("Error: no user available.");
@@ -23,6 +29,9 @@
     checkUser();
 
     // Cancel reservations
+    // Remove reservation from website
+    // Get reservation doc id from reservation container class value,
+    // Pass doc id to deleteReservation to delete from database
     function cancelReservation() {
       $(".reservation-history-container").on("click", "#cancel-reservation", function (event) {
         let alert =
@@ -32,6 +41,8 @@
         // $(event.target).parent().parent().parent().remove();
         if ($(event.target).hasClass("confirm-cancel")) {
           $(event.target).parent().parent().parent().remove();
+          let id = $(event.target).parent().parent().parent().attr('class').split(' ')[0];
+          deleteReservation(id);
         } else {
           $(event.target).toggleClass("confirm-cancel");
           $(event.target).parent().prepend(alert);
@@ -40,10 +51,26 @@
     }
     cancelReservation();
 
-    // Get reservations from database
+    // Delete reservation from database
+    // Requires reservation doc id
+    function deleteReservation(idValue) {
+      console.log("restID", idValue);
+      firebase.auth().onAuthStateChanged(function (user) {
+        db.collection("users").doc(user.uid).collection("reservations").doc(idValue)
+          .delete()
+          .then(function () {
+            console.log("Reservation deleted successful");
+          }).catch(function(error) {
+            console.warn("Could not delete reservation");
+          });
+      });
+    }
+
+
+    // filter reservations from database
     // Filter reservations based on state and pass in the relevant id for html generation
     // 0 => current
-    // 1 => complete
+    // 1 => completed
     // -1 => outdated
     function getReservation(state, type) {
       firebase.auth().onAuthStateChanged(function (user) {
@@ -82,7 +109,7 @@
     <div class="${id} mb-2">
         <button class="accordion border">
           <h6 class="reservation-heading">${restName}</h6>
-          <h6 class="reservation-state">${day}, ${date}, ${hour}</h6>
+          <h6 class="reservation-time">${day}, ${date}, ${hour}</h6>
         </button>
         <div class="panel pt-2">
           <div class="row align-items-center">
